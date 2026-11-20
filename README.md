@@ -5,14 +5,17 @@
   <h1>Veenit Ramteke</h1>
   <p><strong>AI &amp; Systems Engineer · Researcher · BBA (DBE) @ IIM Bangalore &amp; B.Tech CSE @ GHRCEM</strong></p>
 
-  [![Website Status](https://img.shields.io/badge/UX%20Style-Strike.uno%20Inspired-ccff00?style=for-the-badge&logoColor=black)](#-signature-ux--interactions)
-  [![Performance](https://img.shields.io/badge/FPS-60%20Momentum%20Scroll-00f0ff?style=for-the-badge)](#-signature-ux--interactions)
+  [![Website Status](https://img.shields.io/badge/Live%20Demo-Vercel%20Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://veenit-strike-portfolio.vercel.app)
+  [![UX Style](https://img.shields.io/badge/UX%20Style-Strike.uno%20Inspired-ccff00?style=for-the-badge&logoColor=black)](https://veenit-strike-portfolio.vercel.app)
+  [![Performance](https://img.shields.io/badge/FPS-60%20Momentum%20Scroll-00f0ff?style=for-the-badge)](https://veenit-strike-portfolio.vercel.app)
   [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.19552932-blue?style=for-the-badge&logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.19552932)
   [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
   <br/>
 
   <p align="center">
+    <a href="https://veenit-strike-portfolio.vercel.app"><strong>Explore Live Website »</strong></a>
+    ·
     <a href="https://github.com/veenit-cell/PERSONAL-PORTFOLIO-"><strong>GitHub Repository »</strong></a>
     ·
     <a href="https://doi.org/10.5281/zenodo.19552932"><strong>Zenodo DOI »</strong></a>
