@@ -106,77 +106,397 @@ body {
   opacity: 0.4;
 }
 
-/* ── 05. KATANA PAGE-CUTTING SCREEN SLICE CANVAS ── */
-.katana-cut-canvas {
+/* ── 05. KATANA CENTER-CUT & 3D PAGE-PEEL OVERLAY ENGINE ── */
+.katana-peel-stage {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 9998;
   pointer-events: none;
-  z-index: 9995;
-}
-
-.katana-blade-flash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 150vw;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #ffffff, var(--f1-red), #ffffff, transparent);
-  box-shadow: 0 0 30px #ffffff, 0 0 60px var(--f1-red), 0 0 90px var(--f1-red-bright);
-  pointer-events: none;
-  z-index: 9996;
   opacity: 0;
-  transform: translate3d(-100vw, -100vh, 0) rotate(-22deg);
-  transition: opacity 0.12s ease;
-  will-change: transform, opacity;
+  visibility: hidden;
+  perspective: 1600px;
+  perspective-origin: center center;
+  overflow: hidden;
+  background: transparent;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
 }
 
-.katana-blade-flash.slashing {
+.katana-peel-stage.active {
   opacity: 1;
-  animation: katana-screen-cut 0.42s var(--ease-katana) forwards;
+  visibility: visible;
+  pointer-events: all;
 }
 
-@keyframes katana-screen-cut {
+/* ── Underlay: Destination Telemetry & F1 Velocity revealed beneath the cut ── */
+.peel-underlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center 65%, #180507 0%, #08080c 60%, #020204 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.peel-underlay-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(225, 6, 0, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(225, 6, 0, 0.09) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+  opacity: 0.7;
+}
+
+.peel-underlay-f1-car {
+  position: absolute;
+  bottom: 6vh;
+  width: 780px;
+  max-width: 90vw;
+  opacity: 0.88;
+  filter: drop-shadow(0 15px 30px rgba(225, 6, 0, 0.5));
+  animation: underlayCarGlide 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes underlayCarGlide {
   0% {
-    transform: translate3d(-60vw, -40vh, 0) rotate(-22deg) scaleX(0.2);
+    transform: translate3d(120px, 40px, 0) scale(0.92);
     opacity: 0;
-  }
-  25% {
-    opacity: 1;
-    transform: translate3d(5vw, 15vh, 0) rotate(-22deg) scaleX(1.5);
   }
   100% {
-    transform: translate3d(120vw, 110vh, 0) rotate(-22deg) scaleX(0.8);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.88;
+  }
+}
+
+.peel-underlay-hud {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 24px 32px;
+  background: rgba(10, 10, 15, 0.88);
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.25), inset 0 0 25px rgba(0, 240, 255, 0.1);
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  transform: translateY(-25px);
+  animation: hudScaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hudScaleIn {
+  0% {
+    transform: translateY(20px) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-25px) scale(1);
+    opacity: 1;
+  }
+}
+
+.underlay-hud-sector {
+  color: #00f0ff;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.underlay-hud-title {
+  font-size: clamp(26px, 4.5vw, 44px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-shadow: 0 0 25px rgba(225, 6, 0, 0.7);
+}
+
+.underlay-hud-sub {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-f1-muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.underlay-hud-metrics {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hud-stat-pill {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
+
+.hud-stat-pill .hud-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--text-f1-muted);
+}
+
+.hud-stat-pill .hud-val {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* ── 3D Cylindrical Peeling Flaps (Left & Right) ── */
+.peel-flap {
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 50.5vw; /* 0.5vw overlap prevents seam gap before cut */
+  z-index: 10;
+  overflow: visible;
+  will-change: transform;
+}
+
+.peel-flap-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.peel-flap-right {
+  left: 49.5vw;
+  transform-origin: right center;
+}
+
+.peel-flap .flap-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #07080c;
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.peel-flap-right .flap-inner {
+  border-right: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.flap-carbon-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(45deg, rgba(20, 20, 25, 0.95) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(20, 20, 25, 0.95) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(20, 20, 25, 0.95) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(20, 20, 25, 0.95) 75%);
+  background-size: 10px 10px;
+  background-color: #06070a;
+  opacity: 0.9;
+}
+
+.flap-telemetry-decor {
+  position: absolute;
+  top: 32%;
+  padding: 30px;
+  z-index: 2;
+}
+
+.peel-flap-left .flap-telemetry-decor {
+  left: 15%;
+}
+
+.peel-flap-right .flap-telemetry-decor {
+  right: 15%;
+  text-align: right;
+}
+
+.decor-sector {
+  font-size: 13px;
+  color: var(--f1-red);
+  letter-spacing: 0.22em;
+  margin-bottom: 8px;
+}
+
+.decor-heading {
+  font-size: clamp(22px, 3.2vw, 36px);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.decor-graph {
+  width: 280px;
+  max-width: 100%;
+}
+
+/* 3D Cylindrical Curl Light Highlight & Drop-Shadow */
+.peel-flap-left .flap-curl-edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.3) 80%, #ffffff 95%, rgba(225, 6, 0, 0.7) 100%);
+  pointer-events: none;
+}
+
+.peel-flap-left .flap-underside-shadow {
+  position: absolute;
+  top: 0;
+  right: -60px;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.peel-flap-right .flap-curl-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(270deg, transparent 0%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.3) 80%, #ffffff 95%, rgba(225, 6, 0, 0.7) 100%);
+  pointer-events: none;
+}
+
+.peel-flap-right .flap-underside-shadow {
+  position: absolute;
+  top: 0;
+  left: -60px;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Flap 3D Curl Animations: Overlapping & Opening */
+.katana-peel-stage.peeling .peel-flap-left {
+  animation: katanaPeelRollLeft 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.katana-peel-stage.peeling .peel-flap-right {
+  animation: katanaPeelRollRight 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes katanaPeelRollLeft {
+  0% {
+    transform: perspective(1400px) rotateY(0deg) translateX(0) translateZ(0);
+  }
+  28% {
+    transform: perspective(1400px) rotateY(-36deg) translateX(-8%) translateZ(45px);
+  }
+  65% {
+    transform: perspective(1400px) rotateY(-74deg) translateX(-22%) translateZ(65px);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1400px) rotateY(-88deg) translateX(-50%) translateZ(20px);
     opacity: 0;
   }
 }
 
-/* Sliced Section Transition States */
+@keyframes katanaPeelRollRight {
+  0% {
+    transform: perspective(1400px) rotateY(0deg) translateX(0) translateZ(0);
+  }
+  28% {
+    transform: perspective(1400px) rotateY(36deg) translateX(8%) translateZ(45px);
+  }
+  65% {
+    transform: perspective(1400px) rotateY(74deg) translateX(22%) translateZ(65px);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1400px) rotateY(88deg) translateX(50%) translateZ(20px);
+    opacity: 0;
+  }
+}
+
+/* ── Center Katana Blade & Fiery Molten Edge ── */
+.peel-katana-blade-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 92vh;
+  width: 120px;
+  z-index: 25;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.peel-katana-svg {
+  height: 100%;
+  width: auto;
+  filter: drop-shadow(0 0 16px rgba(225, 6, 0, 0.85)) drop-shadow(0 0 35px rgba(255, 120, 0, 0.65));
+}
+
+.katana-peel-stage.peeling .peel-katana-svg {
+  animation: katanaBladeSlicing 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes katanaBladeSlicing {
+  0% {
+    transform: translateY(-90px) scaleY(0.92);
+    opacity: 0;
+  }
+  18% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(70px) scaleY(1.05);
+    opacity: 0;
+  }
+}
+
+.katana-peel-sparks-canvas {
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 420px;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Sliced Section Transition States - Gentle Elevation */
 .katana-slice-section {
   position: relative;
-  transition: clip-path 0.5s var(--ease-katana), transform 0.5s var(--ease-katana);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
 }
 
 .katana-slice-section.sliced-enter {
-  animation: katana-unfurl-slice 0.65s var(--ease-katana) forwards;
+  animation: sectionSoftUnfurl 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes katana-unfurl-slice {
+@keyframes sectionSoftUnfurl {
   0% {
-    clip-path: polygon(0 0, 100% 0, 100% 12%, 0 28%);
-    transform: translate3d(-14px, 10px, 0) skewX(-2deg);
-    filter: brightness(1.7) drop-shadow(0 0 20px var(--f1-red));
-  }
-  50% {
-    clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
-    transform: translate3d(5px, -3px, 0) skewX(0.6deg);
+    transform: translateY(18px) scale(0.985);
+    opacity: 0.85;
   }
   100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    transform: translate3d(0, 0, 0) skewX(0);
-    filter: brightness(1) drop-shadow(0 0 0 transparent);
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 

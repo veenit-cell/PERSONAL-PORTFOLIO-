@@ -36,138 +36,208 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     02. KATANA PAGE-CUTTING TRANSITION SYSTEM
+     02. 3D KATANA CENTER-CUT & OVERLAPPING PAGE-PEEL ENGINE
      ========================================================================== */
-  const cutCanvas = document.getElementById('katana-cut-canvas');
-  const bladeFlash = document.getElementById('katana-blade-flash');
-  let cutCtx = null;
-  let cutW = 0, cutH = 0;
-  const sparks = [];
+  const katanaPeelStage = document.getElementById('katana-peel-stage');
+  const peelSparksCanvas = document.getElementById('katana-peel-sparks-canvas');
+  let peelSparksCtx = null;
+  const peelSparks = [];
 
-  if (cutCanvas) {
-    cutCtx = cutCanvas.getContext('2d');
-    cutW = cutCanvas.width = window.innerWidth;
-    cutH = cutCanvas.height = window.innerHeight;
+  // Telemetry metadata per sector for dynamic 3D peel HUD
+  const SECTOR_METADATA = {
+    '#top': { num: '01', sector: 'SECTOR 01 // COCKPIT', title: 'PRECISION ENGINEERING', sub: 'AI SYSTEMS & MONOCOQUE VELOCITY' },
+    '#projects': { num: '02', sector: 'SECTOR 02 // POWERTRAIN', title: 'HYBRID VELOCITY', sub: 'FEATURED PROJECTS · DRISHTI · VASH · PRASHIKSHAN' },
+    '#publication': { num: '03', sector: 'SECTOR 03 // RESEARCH', title: 'SCIENTIFIC PODIUM', sub: 'HBRP JOURNAL · DATA SCIENCE & TECH (DOI 10.5281)' },
+    '#honors': { num: '04', sector: 'SECTOR 04 // PODIUMS', title: 'GRAND PRIX TROPHIES', sub: 'P1 IIT GUWAHATI AVINYA · ELECTRONOVA ROBOTICS' },
+    '#experience': { num: '05', sector: 'SECTOR 05 // PIT STRATEGY', title: 'APPLIED GOVERNANCE', sub: 'PPGF POLITICAL CONSULTING · ICPC COMPETITIVE CODING' },
+    '#education': { num: '06', sector: 'SECTOR 06 // DRIVER ACADEMY', title: 'DUAL PEDIGREE', sub: 'IIM BANGALORE DBE · GHRCEM B.TECH CSE (CGPA 8.5)' },
+    '#about': { num: '07', sector: 'SECTOR 07 // ARSENAL', title: 'ENGINE ARCHITECTURE', sub: 'PYTHON · PYTORCH · FASTAPI · ROS2 · NEXT.JS' },
+    '#resume': { num: '08', sector: 'SECTOR 08 // SUPERLICENSE', title: 'OFFICIAL DOSSIER', sub: 'FIA RESUME SUPERLICENSE · DOWNLOAD VERIFIED PDF' },
+    '#contact': { num: '09', sector: 'SECTOR 09 // FINISH LINE', title: 'PADDOCK CLUB', sub: 'PIT WALL COMMUNICATIONS · VEENITRAMTEKE@GMAIL.COM' }
+  };
 
-    window.addEventListener('resize', () => {
-      cutW = cutCanvas.width = window.innerWidth;
-      cutH = cutCanvas.height = window.innerHeight;
-    });
+  if (peelSparksCanvas) {
+    peelSparksCtx = peelSparksCanvas.getContext('2d');
+    const resizeSparksCanvas = () => {
+      peelSparksCanvas.width = peelSparksCanvas.offsetWidth || 420;
+      peelSparksCanvas.height = peelSparksCanvas.offsetHeight || 800;
+    };
+    resizeSparksCanvas();
+    window.addEventListener('resize', resizeSparksCanvas);
   }
 
-  function executeKatanaSlash(callback) {
-    // 1. Trigger razor blade flash beam
-    if (bladeFlash) {
-      bladeFlash.classList.remove('slashing');
-      void bladeFlash.offsetWidth; // Force reflow
-      bladeFlash.classList.add('slashing');
-    }
+  function triggerKatanaPeelSparks() {
+    if (!peelSparksCanvas || !peelSparksCtx) return;
+    const w = peelSparksCanvas.width;
+    const h = peelSparksCanvas.height;
+    const centerX = w / 2;
 
-    // 2. Play metallic blade slice SFX
-    playSound('katana');
+    const sparkCount = 80;
+    for (let i = 0; i < sparkCount; i++) {
+      const originY = 60 + Math.random() * (h - 220);
+      const isLeft = Math.random() > 0.5;
+      const angle = isLeft
+        ? Math.PI - 0.2 + (Math.random() - 0.5) * 0.9
+        : 0.2 + (Math.random() - 0.5) * 0.9;
+      const speed = Math.random() * 9 + 4;
 
-    // 3. Emit high-voltage sparks along slash vector
-    if (cutCtx) {
-      const sparkCount = 55;
-      const startX = cutW * 0.1;
-      const startY = cutH * 0.1;
-      const endX = cutW * 0.9;
-      const endY = cutH * 0.9;
-
-      for (let i = 0; i < sparkCount; i++) {
-        const t = Math.random();
-        const originX = startX + (endX - startX) * t;
-        const originY = startY + (endY - startY) * t;
-
-        const angle = -Math.PI / 4 + (Math.random() - 0.5) * 1.4;
-        const speed = Math.random() * 10 + 4;
-
-        sparks.push({
-          x: originX,
-          y: originY,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          life: 1.0,
-          decay: Math.random() * 0.04 + 0.02,
-          color: Math.random() > 0.4 ? '#e10600' : (Math.random() > 0.5 ? '#ffffff' : '#ff1801'),
-          size: Math.random() * 2.8 + 1,
-        });
-      }
-    }
-
-    if (callback) {
-      setTimeout(callback, 80);
+      peelSparks.push({
+        x: centerX + (Math.random() - 0.5) * 6,
+        y: originY,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed * 0.7 - (Math.random() * 2),
+        life: 1.0,
+        decay: Math.random() * 0.035 + 0.02,
+        color: Math.random() > 0.5 ? '#ffffff' : (Math.random() > 0.4 ? '#ffd700' : (Math.random() > 0.3 ? '#ff5500' : '#e10600')),
+        size: Math.random() * 2.8 + 1.2
+      });
     }
   }
 
-  function renderKatanaSparks() {
-    if (cutCtx && sparks.length > 0) {
-      cutCtx.clearRect(0, 0, cutW, cutH);
+  function renderKatanaPeelSparks() {
+    if (peelSparksCtx && peelSparks.length > 0) {
+      peelSparksCtx.clearRect(0, 0, peelSparksCanvas.width, peelSparksCanvas.height);
 
-      for (let i = sparks.length - 1; i >= 0; i--) {
-        const s = sparks[i];
+      for (let i = peelSparks.length - 1; i >= 0; i--) {
+        const s = peelSparks[i];
         s.x += s.vx;
         s.y += s.vy;
-        s.vy += 0.2; // Gravity pull
+        s.vy += 0.22; // Gravity
         s.life -= s.decay;
 
         if (s.life <= 0) {
-          sparks.splice(i, 1);
+          peelSparks.splice(i, 1);
         } else {
-          cutCtx.fillStyle = s.color;
-          cutCtx.globalAlpha = s.life;
-          cutCtx.shadowColor = '#e10600';
-          cutCtx.shadowBlur = 8;
-          cutCtx.beginPath();
-          cutCtx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
-          cutCtx.fill();
+          peelSparksCtx.fillStyle = s.color;
+          peelSparksCtx.globalAlpha = s.life;
+          peelSparksCtx.shadowColor = '#ff4400';
+          peelSparksCtx.shadowBlur = 9;
+          peelSparksCtx.beginPath();
+          peelSparksCtx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+          peelSparksCtx.fill();
         }
       }
-      cutCtx.globalAlpha = 1.0;
-      cutCtx.shadowBlur = 0;
+      peelSparksCtx.globalAlpha = 1.0;
+      peelSparksCtx.shadowBlur = 0;
     }
-    requestAnimationFrame(renderKatanaSparks);
+    requestAnimationFrame(renderKatanaPeelSparks);
   }
-  requestAnimationFrame(renderKatanaSparks);
+  requestAnimationFrame(renderKatanaPeelSparks);
 
-  // Slash Gate Buttons & Slash-to-Next
+  function getCurrentSectorId() {
+    const list = ['#top', '#projects', '#publication', '#honors', '#experience', '#education', '#about', '#resume', '#contact'];
+    const curY = window.scrollY || window.pageYOffset;
+    let curr = '#top';
+    for (const id of list) {
+      const el = document.querySelector(id);
+      if (el) {
+        if (curY >= el.offsetTop - 200) {
+          curr = id;
+        }
+      }
+    }
+    return curr;
+  }
+
+  let isPeeling = false;
+
+  function executeKatanaCenterPeel(targetSelector, sourceSelector, callback) {
+    if (!targetSelector) return;
+    const targetEl = document.querySelector(targetSelector);
+    if (!targetEl) return;
+
+    if (isPeeling) return; // Prevent double-slash overlap
+    isPeeling = true;
+
+    const srcId = sourceSelector || getCurrentSectorId();
+    const srcMeta = SECTOR_METADATA[srcId] || SECTOR_METADATA['#top'];
+    const tgtMeta = SECTOR_METADATA[targetSelector] || { num: '02', sector: 'SECTOR // NEXT', title: 'HYBRID VELOCITY', sub: 'PRECISION ENGINEERING' };
+
+    // Update Underlay HUD text
+    const underlaySec = document.getElementById('underlay-hud-sector');
+    const underlayTitle = document.getElementById('underlay-hud-title');
+    const underlaySub = document.getElementById('underlay-hud-sub');
+    if (underlaySec) underlaySec.textContent = tgtMeta.sector;
+    if (underlayTitle) underlayTitle.textContent = tgtMeta.title;
+    if (underlaySub) underlaySub.textContent = tgtMeta.sub;
+
+    // Update Left & Right Flap text (showing previous section peeling away)
+    const peelLeftSec = document.getElementById('peel-left-sector');
+    const peelLeftTitle = document.getElementById('peel-left-title');
+    const peelRightSec = document.getElementById('peel-right-sector');
+    const peelRightTitle = document.getElementById('peel-right-title');
+    if (peelLeftSec) peelLeftSec.textContent = srcMeta.sector;
+    if (peelLeftTitle) peelLeftTitle.textContent = srcMeta.title;
+    if (peelRightSec) peelRightSec.textContent = srcMeta.sector;
+    if (peelRightTitle) peelRightTitle.textContent = srcMeta.title;
+
+    // 1. Play authentic Katana unsheathe and slash audio
+    playSound('katana');
+
+    // 2. Activate 3D Peel Stage
+    if (katanaPeelStage) {
+      katanaPeelStage.classList.remove('peeling');
+      void katanaPeelStage.offsetWidth; // Reflow
+      katanaPeelStage.classList.add('active', 'peeling');
+      triggerKatanaPeelSparks();
+    }
+
+    // 3. Mid-peel scroll synchronization (at 450ms when flaps are curling back)
+    setTimeout(() => {
+      targetEl.classList.add('katana-slice-section', 'sliced-enter');
+      if (lenis) {
+        lenis.scrollTo(targetEl, { offset: -50, duration: 1.1 });
+      } else {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 450);
+
+    // 4. Conclude peel and restore interactive stage
+    setTimeout(() => {
+      if (katanaPeelStage) {
+        katanaPeelStage.classList.remove('peeling');
+        setTimeout(() => {
+          katanaPeelStage.classList.remove('active');
+          isPeeling = false;
+          if (callback) callback();
+        }, 180);
+      } else {
+        isPeeling = false;
+        if (callback) callback();
+      }
+    }, 1180);
+  }
+
+  // Alias for backward compatibility
+  function executeKatanaSlash(callback) {
+    playSound('katana');
+    triggerKatanaPeelSparks();
+    if (callback) setTimeout(callback, 80);
+  }
+
+  // Slash Gate Buttons between sections
   document.querySelectorAll('.katana-slash-gate, .btn-slash-next').forEach((gate) => {
     gate.addEventListener('click', function (e) {
       e.preventDefault();
       const targetSelector = this.getAttribute('data-target') || this.getAttribute('data-slash-target');
-      if (!targetSelector) return;
-
-      const targetEl = document.querySelector(targetSelector);
-      if (targetEl) {
-        executeKatanaSlash(() => {
-          targetEl.classList.add('katana-slice-section', 'sliced-enter');
-          if (lenis) {
-            lenis.scrollTo(targetEl, { offset: -60, duration: 1.2 });
-          } else {
-            targetEl.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
+      const fromSelector = this.getAttribute('data-from');
+      if (targetSelector) {
+        executeKatanaCenterPeel(targetSelector, fromSelector);
       }
     });
   });
 
-  // Nav link smooth anchoring with Katana Slice
+  // Nav link smooth anchoring with 3D Katana Center Cut
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
+      if (targetId === '#' || !targetId.startsWith('#')) return;
 
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
-        executeKatanaSlash(() => {
-          targetEl.classList.add('katana-slice-section', 'sliced-enter');
-          if (lenis) {
-            lenis.scrollTo(targetEl, { offset: -60, duration: 1.2 });
-          } else {
-            targetEl.scrollIntoView({ behavior: 'smooth' });
-          }
-
+        const currentSrc = getCurrentSectorId();
+        executeKatanaCenterPeel(targetId, currentSrc, () => {
           const mobileDrawer = document.getElementById('mobile-drawer');
           if (mobileDrawer && mobileDrawer.classList.contains('open')) {
             mobileDrawer.classList.remove('open');
@@ -176,41 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // Back to top
-  const backToTopBtn = document.getElementById('back-to-top');
-  if (backToTopBtn) {
-    backToTopBtn.addEventListener('click', () => {
-      executeKatanaSlash(() => {
-        if (lenis) {
-          lenis.scrollTo(0, { duration: 1.4 });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-
-  // Intersection Observer for Section Slice Unfurling on Scroll
-  const f1Sections = document.querySelectorAll('section.f1-section, .hero-section');
-  let currentInteractingSection = null;
-
-  if ('IntersectionObserver' in window) {
-    const sliceObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.target !== currentInteractingSection) {
-            currentInteractingSection = entry.target;
-            entry.target.classList.add('katana-slice-section', 'sliced-enter');
-            executeKatanaSlash();
-          }
-        });
-      },
-      { threshold: 0.28 }
-    );
-
-    f1Sections.forEach((sec) => sliceObserver.observe(sec));
-  }
 
   /* ==========================================================================
      03. FORMULA 1 STEERING WHEEL REV BAR & TACHOMETER ENGINE

@@ -29,11 +29,155 @@
   <!-- ── AERODYNAMIC WIND TUNNEL & SPEED LINE CANVAS ── -->
   <canvas id="f1-streamline-canvas" class="f1-streamline-canvas" aria-hidden="true"></canvas>
 
-  <!-- ── KATANA PAGE-CUTTING SCREEN SLICE CANVAS ── -->
-  <canvas id="katana-cut-canvas" class="katana-cut-canvas" aria-hidden="true"></canvas>
-  <div id="katana-blade-flash" class="katana-blade-flash" aria-hidden="true">
-    <div class="blade-core"></div>
-    <div class="blade-sparks-line"></div>
+  <!-- ── 3D KATANA CENTER-CUT & PAGE-PEEL OVERLAY STAGE ── -->
+  <div id="katana-peel-stage" class="katana-peel-stage" aria-hidden="true">
+    <!-- Underlay: Next Sector Telemetry & F1 Velocity revealed beneath the cut -->
+    <div class="peel-underlay" id="peel-underlay">
+      <div class="peel-underlay-grid"></div>
+      
+      <!-- High-Tech Telemetry HUD overlay in the revealed opening -->
+      <div class="peel-underlay-hud">
+        <div class="underlay-hud-sector font-mono" id="underlay-hud-sector">SECTOR 02 // POWERTRAIN</div>
+        <div class="underlay-hud-title font-display" id="underlay-hud-title">HYBRID VELOCITY</div>
+        <div class="underlay-hud-sub font-mono" id="underlay-hud-sub">PRECISION ENGINEERING // RACING LINE LOCKED</div>
+        <div class="underlay-hud-metrics font-mono">
+          <div class="hud-stat-pill">
+            <span class="hud-label">TELEMETRY</span>
+            <span class="hud-val text-neon-cyan">LOCKED</span>
+          </div>
+          <div class="hud-stat-pill">
+            <span class="hud-label">DRS STATUS</span>
+            <span class="hud-val text-f1-red">ARMED</span>
+          </div>
+          <div class="hud-stat-pill">
+            <span class="hud-label">VELOCITY</span>
+            <span class="hud-val">348 KM/H</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- F1 Aerodynamic Car Graphic revealed in background -->
+      <div class="peel-underlay-f1-car">
+        <svg viewBox="0 0 800 220" fill="none" class="f1-car-svg" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 160 L120 160 L160 140 L240 140 L320 120 L450 120 L520 135 L680 140 L760 160 Z" fill="#090a0f" stroke="#e10600" stroke-width="2"/>
+          <path d="M220 140 Q 300 90, 440 100 Q 510 110, 580 138 Z" fill="#e10600" opacity="0.85"/>
+          <path d="M440 100 L 460 65 L 510 65 L 490 105 Z" fill="#ffffff" opacity="0.9"/>
+          <!-- Wings & Endplates -->
+          <rect x="700" y="150" width="70" height="15" rx="3" fill="#ff1801"/>
+          <path d="M720 135 L 760 135 L 750 165 L 710 165 Z" fill="#121318" stroke="#e10600" stroke-width="1.5"/>
+          <path d="M60 90 L 140 90 L 130 150 L 70 150 Z" fill="#121318" stroke="#e10600" stroke-width="2"/>
+          <rect x="55" y="85" width="90" height="8" rx="2" fill="#ff1801"/>
+          <!-- Wheels & Pirelli Red Soft Tyres -->
+          <circle cx="160" cy="160" r="36" fill="#111216" stroke="#e10600" stroke-width="4"/>
+          <circle cx="160" cy="160" r="18" fill="#1f2026"/>
+          <circle cx="640" cy="160" r="36" fill="#111216" stroke="#e10600" stroke-width="4"/>
+          <circle cx="640" cy="160" r="18" fill="#1f2026"/>
+          <!-- Speed Streaks -->
+          <line x1="10" y1="170" x2="800" y2="170" stroke="#e10600" stroke-width="2" stroke-dasharray="25 15" opacity="0.7"/>
+          <line x1="30" y1="185" x2="780" y2="185" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="45 20" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Left Flap: 3D perspective curl roll outward to the left -->
+    <div class="peel-flap peel-flap-left" id="peel-flap-left">
+      <div class="flap-inner">
+        <div class="flap-carbon-bg"></div>
+        <div class="flap-telemetry-decor">
+          <div class="decor-sector font-mono" id="peel-left-sector">SECTOR 01 // AERO</div>
+          <div class="decor-heading font-display" id="peel-left-title">PRECISION ENGINEERING</div>
+          <div class="decor-graph">
+            <svg viewBox="0 0 300 80" fill="none" class="decor-graph-svg">
+              <path d="M0 60 Q 50 10, 100 40 T 200 20 T 300 50" stroke="#e10600" stroke-width="2.5" fill="none"/>
+              <line x1="0" y1="75" x2="300" y2="75" stroke="#ffffff" stroke-width="0.8" opacity="0.2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flap-curl-edge"></div>
+        <div class="flap-underside-shadow"></div>
+      </div>
+    </div>
+
+    <!-- Right Flap: 3D perspective curl roll outward to the right -->
+    <div class="peel-flap peel-flap-right" id="peel-flap-right">
+      <div class="flap-inner">
+        <div class="flap-carbon-bg"></div>
+        <div class="flap-telemetry-decor">
+          <div class="decor-sector font-mono" id="peel-right-sector">SECTOR 01 // AERO</div>
+          <div class="decor-heading font-display" id="peel-right-title">PRECISION ENGINEERING</div>
+          <div class="decor-graph">
+            <svg viewBox="0 0 300 80" fill="none" class="decor-graph-svg">
+              <path d="M0 40 Q 80 70, 150 20 T 300 30" stroke="#ffffff" stroke-width="2" opacity="0.7" fill="none"/>
+              <line x1="0" y1="75" x2="300" y2="75" stroke="#e10600" stroke-width="0.8" opacity="0.3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flap-curl-edge"></div>
+        <div class="flap-underside-shadow"></div>
+      </div>
+    </div>
+
+    <!-- Center Katana Blade & Fiery Molten Edge (Centered at 50% X) -->
+    <div class="peel-katana-blade-container" id="peel-katana-blade-container">
+      <svg class="peel-katana-svg" viewBox="0 0 100 820" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="peel-blade-heat-glow" x="-100%" y="-50%" width="300%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="glow1"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="glow2"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="24" result="glow3"/>
+            <feMerge>
+              <feMergeNode in="glow3"/>
+              <feMergeNode in="glow2"/>
+              <feMergeNode in="glow1"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <linearGradient id="katana-steel-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1b1c22"/>
+            <stop offset="35%" stop-color="#72798e"/>
+            <stop offset="70%" stop-color="#e2e6f4"/>
+            <stop offset="100%" stop-color="#ffffff"/>
+          </linearGradient>
+          <linearGradient id="katana-fire-edge-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="15%" stop-color="#ffea00"/>
+            <stop offset="45%" stop-color="#ff5500"/>
+            <stop offset="85%" stop-color="#e10600"/>
+            <stop offset="100%" stop-color="#990000"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Curved Spine (Mune) & Blade Body -->
+        <path d="M48 20 Q 53 270, 47 590 L 53 590 Q 59 270, 52 20 Z" fill="url(#katana-steel-gradient)"/>
+        
+        <!-- Hamon Line (Temper Wave) -->
+        <path d="M50 30 Q 53 90, 49 150 Q 54 220, 49 300 Q 54 390, 48 490 Q 53 550, 50 590" stroke="#ffffff" stroke-width="1.3" opacity="0.8" fill="none"/>
+        
+        <!-- Razor Cutting Edge (Ha) with Intense Fiery Glow -->
+        <path d="M51 15 Q 57 270, 50 590 L 54 590 Q 61 270, 53 15 Z" fill="url(#katana-fire-edge-gradient)" filter="url(#peel-blade-heat-glow)"/>
+        <path d="M52 14 Q 58 270, 51 590" stroke="#ffffff" stroke-width="2.2" filter="url(#peel-blade-heat-glow)"/>
+
+        <!-- Habaki (Gold Blade Collar) -->
+        <rect x="44" y="590" width="14" height="22" rx="2" fill="#ffd700" stroke="#997a00" stroke-width="1.2"/>
+        <line x1="44" y1="601" x2="58" y2="601" stroke="#333" stroke-width="1"/>
+
+        <!-- Tsuba (Guard) in Matte Titanium Carbon with Crimson Trim -->
+        <ellipse cx="51" cy="618" rx="34" ry="11" fill="#121318" stroke="#e10600" stroke-width="3"/>
+        <ellipse cx="51" cy="618" rx="24" ry="6.5" fill="#060608" stroke="#ffd700" stroke-width="1"/>
+        <circle cx="32" cy="618" r="3" fill="#e10600"/>
+        <circle cx="70" cy="618" r="3" fill="#e10600"/>
+
+        <!-- Tsuka (Handle / Hilt) with Traditional Crimson & Carbon Diamond Wrap -->
+        <rect x="45" y="626" width="12" height="165" rx="3" fill="#0c0d10" stroke="#222" stroke-width="1"/>
+        <path d="M45 636 L 51 643 L 57 636 M45 654 L 51 661 L 57 654 M45 672 L 51 679 L 57 672 M45 690 L 51 697 L 57 690 M45 708 L 51 715 L 57 708 M45 726 L 51 733 L 57 726 M45 744 L 51 751 L 57 744 M45 762 L 51 769 L 57 762 M45 780 L 51 787 L 57 780" stroke="#e10600" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+        <!-- Kashira (Pommel Cap) -->
+        <rect x="44" y="791" width="14" height="12" rx="2" fill="#ffd700" stroke="#997a00" stroke-width="1.2"/>
+      </svg>
+
+      <!-- Center Spark Emitter Canvas -->
+      <canvas id="katana-peel-sparks-canvas" class="katana-peel-sparks-canvas"></canvas>
+    </div>
   </div>
 
   <!-- ── KATANA BLADE MOUSE CURSOR ── -->
@@ -320,7 +464,7 @@
     </div>
 
     <!-- ── KATANA SLASH BARRIER: S01 -> S02 ── -->
-    <div class="katana-slash-gate" data-target="#projects">
+    <div class="katana-slash-gate" data-from="#top" data-target="#projects">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Featured Projects">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 02 // PROJECTS TELEMETRY</span>
@@ -550,7 +694,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S02 -> S03 ── -->
-    <div class="katana-slash-gate" data-target="#publication">
+    <div class="katana-slash-gate" data-from="#projects" data-target="#publication">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Research Publication">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 03 // SCIENTIFIC PODIUM &amp; PUBLICATION</span>
@@ -646,7 +790,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S03 -> S04 ── -->
-    <div class="katana-slash-gate" data-target="#honors">
+    <div class="katana-slash-gate" data-from="#publication" data-target="#honors">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Trophies">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 04 // GRAND PRIX TROPHIES &amp; PODIUMS</span>
@@ -705,7 +849,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S04 -> S05 ── -->
-    <div class="katana-slash-gate" data-target="#experience">
+    <div class="katana-slash-gate" data-from="#honors" data-target="#experience">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Experience">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 05 // PIT STRATEGY &amp; EXPERIENCE</span>
@@ -759,7 +903,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S05 -> S06 ── -->
-    <div class="katana-slash-gate" data-target="#education">
+    <div class="katana-slash-gate" data-from="#experience" data-target="#education">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Education">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 06 // DRIVER ACADEMY &amp; ACADEMICS</span>
@@ -808,7 +952,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S06 -> S07 ── -->
-    <div class="katana-slash-gate" data-target="#about">
+    <div class="katana-slash-gate" data-from="#education" data-target="#about">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Arsenal">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 07 // POWERTRAIN ARSENAL</span>
@@ -942,7 +1086,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S07 -> S08 ── -->
-    <div class="katana-slash-gate" data-target="#resume">
+    <div class="katana-slash-gate" data-from="#about" data-target="#resume">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Superlicense Dossier">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO SECTOR 08 // SUPERLICENSE &amp; OFFICIAL DOSSIER</span>
@@ -1038,7 +1182,7 @@
     </section>
 
     <!-- ── KATANA SLASH BARRIER: S08 -> S09 ── -->
-    <div class="katana-slash-gate" data-target="#contact">
+    <div class="katana-slash-gate" data-from="#resume" data-target="#contact">
       <button class="katana-slash-btn magnetic-item" title="Slash through to Pit Wall Contact">
         <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
         <span class="gate-text">SLASH TO FINISH LINE // PADDOCK CLUB &amp; CONTACT</span>
