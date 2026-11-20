@@ -39,13 +39,15 @@ The website presents Veenit's work spanning disaster response intelligence, fina
 
 ## ⚡ Signature UX & Interactions
 
+- **Katana Blade Page-Cutting Engine**: While scrolling, sharp diagonal energy slashes with dynamic particle sparks slice open new sections, accompanied by metallic blade unsheathe sound synthesis and sliced-polygon unmasking animations.
+- **F1 Steering Wheel Shift Lights & Telemetry**: 15 rev-limiter LEDs (5 Green, 5 Red, 5 Purple) in the sticky header that illuminate progressively based on scroll velocity, flashing purple at redline alongside dynamic gear shifts (G1–G8) and a simulated 340+ KM/H speed tachometer with active DRS.
 - **Momentum Virtual Scroll**: Powered by **Lenis**, delivering virtual inertia scrolling without native browser stutter.
 - **Dynamic Contextual Cursor**: Dual-ring cursor with spring physics interpolation, expanding to context badges (`VIEW`) over project assets, inverting on text, and magnetically snapping to interactive controls.
 - **Floating Project Preview Tracker (Signature `strike.uno` Interaction)**: An interactive project index table where hovering over any project name smoothly spawns and trails a floating preview card with rotational physics following the user's pointer.
 - **Hardware-Accelerated Ambient Canvas**: Interactive particle and connection network reacting to pointer velocity and proximity.
-- **Tactile Film Grain Overlay**: Hardware-accelerated SVG noise filter giving digital surfaces a physical, editorial texture.
+- **Motorsport Carbon Fiber Aesthetics**: Textured carbon fiber weave surfaces, F1 racing red (`#E10600`) and Petronas cyan (`#00F0FF`) accents, and checkered apex curbing section dividers.
 - **Live IST Operations Clock**: Real-time ticking operational clock synced to `Asia/Kolkata` (`PUNE, IN [IST HH:MM:SS]`) alongside an active availability pulse indicator.
-- **Web Audio Micro-Synthesizer**: Synthesizer audio clicks providing responsive haptic audio feedback on user interactions with toggleable mute memory.
+- **Web Audio Micro-Synthesizer**: Synthesizer audio clicks, Katana blade swings, and telemetry sound feedback on user interactions with toggleable mute memory.
 
 ---
 

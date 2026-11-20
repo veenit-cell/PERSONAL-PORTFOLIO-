@@ -29,11 +29,18 @@
   <!-- ── HARDWARE-ACCELERATED BACKGROUND CANVAS ── -->
   <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
 
+  <!-- ── KATANA SLASH PAGE CUTTING CANVAS ── -->
+  <canvas id="katana-slash-canvas" class="katana-slash-canvas" aria-hidden="true"></canvas>
+  <div id="katana-blade-visual" class="katana-blade-visual" aria-hidden="true">
+    <div class="blade-gleam"></div>
+  </div>
+
   <!-- ── DYNAMIC CONTEXTUAL CURSOR ── -->
   <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
     <div class="cursor-badge">VIEW</div>
+    <div class="cursor-blade-trail"></div>
   </div>
 
   <!-- ── FLOATING PROJECT THUMBNAIL TRACKER (SIGNATURE STRIKE.UNO UX) ── -->
@@ -51,26 +58,52 @@
     <span id="toast-message">Copied to clipboard</span>
   </div>
 
-  <!-- ── FLOATING GLASS NAVIGATION ── -->
+  <!-- ── FLOATING GLASS NAVIGATION WITH F1 SHIFT LIGHTS ── -->
   <header class="nav-wrapper">
+    <!-- F1 Steering Wheel Rev Limiter / LED Shift Lights -->
+    <div class="f1-rev-bar" id="f1-rev-bar" aria-label="F1 Telemetry Tachometer Shift Lights">
+      <div class="f1-led-group">
+        <span class="led led-g" data-level="1"></span>
+        <span class="led led-g" data-level="2"></span>
+        <span class="led led-g" data-level="3"></span>
+        <span class="led led-g" data-level="4"></span>
+        <span class="led led-g" data-level="5"></span>
+      </div>
+      <div class="f1-led-group">
+        <span class="led led-r" data-level="6"></span>
+        <span class="led led-r" data-level="7"></span>
+        <span class="led led-r" data-level="8"></span>
+        <span class="led led-r" data-level="9"></span>
+        <span class="led led-r" data-level="10"></span>
+      </div>
+      <div class="f1-led-group">
+        <span class="led led-p" data-level="11"></span>
+        <span class="led led-p" data-level="12"></span>
+        <span class="led led-p" data-level="13"></span>
+        <span class="led led-p" data-level="14"></span>
+        <span class="led led-p" data-level="15"></span>
+      </div>
+      <div class="f1-gear-display" id="f1-gear-indicator">G8</div>
+    </div>
+
     <nav class="nav-pill" aria-label="Main Navigation">
       <!-- Wordmark -->
       <a href="#top" class="nav-brand magnetic-item" aria-label="Veenit Ramteke Home">
-        <span class="brand-monogram">VR</span>
+        <span class="brand-monogram f1-racing-badge">
+          <span class="f1-flag-tick"></span>VR
+        </span>
         <span class="brand-text">
           <strong class="brand-name">VEENIT RAMTEKE</strong>
-          <span class="brand-role">AI &amp; SYSTEMS ENG.</span>
+          <span class="brand-role">PADDOCK ENGINEERING // AI</span>
         </span>
       </a>
 
-      <!-- Live Ticker & Time Indicator -->
-      <div class="nav-status-pill">
-        <span class="status-indicator">
-          <span class="pulse-ring"></span>
-          <span class="pulse-dot"></span>
-        </span>
-        <span class="status-label">OPEN FOR 2026 ROLES</span>
-        <span class="status-divider">·</span>
+      <!-- F1 Telemetry Status Pill -->
+      <div class="nav-status-pill f1-telemetry-pill">
+        <span class="f1-drs-tag">DRS <span class="drs-active">ON</span></span>
+        <span class="status-divider">|</span>
+        <span class="f1-speed-display" id="f1-speed-val">324 KM/H</span>
+        <span class="status-divider">|</span>
         <span id="live-ist-clock" class="status-clock">PUNE 00:00:00 IST</span>
       </div>
 
@@ -281,6 +314,11 @@
           <span class="ticker-dot">✦</span>
         </div>
       </div>
+    </div>
+
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 02 // CHASSIS &amp; AERODYNAMICS ✦ TELEMETRY</span>
     </div>
 
     <!-- ── 02. FEATURED PROJECTS SHOWCASE (DUAL VIEW) ── -->
@@ -512,12 +550,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 03 // SCIENTIFIC PODIUM ✦ PEER-REVIEWED</span>
+    </div>
+
     <!-- ── 03. PEER-REVIEWED RESEARCH PUBLICATION ── -->
     <section id="publication" class="section-block bg-subtle-void">
       <div class="container">
         
         <div class="section-marker">
-          <span class="marker-index">[03 // ACADEMIC RESEARCH]</span>
+          <span class="marker-index">[SECTOR 03 // ACADEMIC RESEARCH]</span>
           <span class="marker-spec">PEER-REVIEWED SCIENTIFIC OUTPUT</span>
         </div>
 
@@ -599,12 +642,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 04 // GRAND PRIX TROPHIES ✦ 1ST PLACE</span>
+    </div>
+
     <!-- ── 04. HONORS & HACKATHON ACHIEVEMENTS ── -->
     <section id="honors" class="section-block">
       <div class="container">
         
         <div class="section-marker">
-          <span class="marker-index">[04 // DISTINCTIONS]</span>
+          <span class="marker-index">[SECTOR 04 // DISTINCTIONS]</span>
           <span class="marker-spec">COMPETITIVE SPRINT HONORS</span>
         </div>
 
@@ -649,12 +697,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 05 // PIT STRATEGY ✦ APPLIED GOVERNANCE</span>
+    </div>
+
     <!-- ── 05. EXPERIENCE & APPLIED GOVERNANCE ── -->
     <section id="experience" class="section-block bg-subtle-void">
       <div class="container">
         
         <div class="section-marker">
-          <span class="marker-index">[05 // CAREER &amp; INTERNSHIP]</span>
+          <span class="marker-index">[SECTOR 05 // CAREER &amp; INTERNSHIP]</span>
           <span class="marker-spec">APPLIED STRATEGY &amp; RESEARCH</span>
         </div>
 
@@ -694,12 +747,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 06 // DRIVER ACADEMY ✦ IIMB &amp; GHRCEM</span>
+    </div>
+
     <!-- ── 06. ACADEMIC PEDIGREE ── -->
     <section id="education" class="section-block">
       <div class="container">
         
         <div class="section-marker">
-          <span class="marker-index">[06 // ACADEMICS]</span>
+          <span class="marker-index">[SECTOR 06 // ACADEMICS]</span>
           <span class="marker-spec">DUAL-TRACK EDUCATION</span>
         </div>
 
@@ -734,12 +792,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 07 // POWERTRAIN MATRIX ✦ TECHNICAL ARSENAL</span>
+    </div>
+
     <!-- ── 07. TECHNICAL SKILLS ARSENAL ── -->
     <section id="about" class="section-block bg-subtle-void">
       <div class="container">
         
         <div class="section-marker">
-          <span class="marker-index">[07 // ARSENAL]</span>
+          <span class="marker-index">[SECTOR 07 // ARSENAL]</span>
           <span class="marker-spec">ENGINEERING CAPABILITIES &amp; STACK</span>
         </div>
 
@@ -859,12 +922,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">SECTOR 08 // SUPERLICENSE DOSSIER ✦ CURRICULUM VITAE</span>
+    </div>
+
     <!-- ── 08. RESUME & DOSSIER SECTION ── -->
     <section id="resume" class="section-block">
       <div class="container">
         
         <div class="section-marker">
-          <span class="marker-index">[08 // DOSSIER]</span>
+          <span class="marker-index">[SECTOR 08 // DOSSIER]</span>
           <span class="marker-spec">OFFICIAL CURRICULUM VITAE &amp; CREDENTIALS</span>
         </div>
 
@@ -947,12 +1015,17 @@
       </div>
     </section>
 
+    <!-- ── KATANA SLASH DIVIDER ── -->
+    <div class="katana-slash-divider" aria-hidden="true">
+      <span class="katana-cut-badge">FINISH LINE // PADDOCK CLUB ✦ INITIATE CONNECTION</span>
+    </div>
+
     <!-- ── 09. MASSIVE MAGNETIC FOOTER (SIGNATURE STRIKE.UNO FINALE) ── -->
     <footer id="contact" class="footer-section">
       <div class="container footer-container">
         
         <div class="section-marker">
-          <span class="marker-index">[09 // CONTACT]</span>
+          <span class="marker-index">[SECTOR 09 // CONTACT]</span>
           <span class="marker-spec">INITIATE CONNECTION</span>
         </div>
 

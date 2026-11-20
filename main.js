@@ -1,6 +1,6 @@
 /**
  * VEENIT RAMTEKE — STRIKE-INSPIRED INTERACTIVE ENGINE
- * Lenis Momentum Scrolling · Spring Physics Cursor · Ambient Canvas · Floating Preview
+ * Lenis Momentum Scroll · Katana Blade Page-Cutting Engine · F1 Telemetry Tachometer
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     if (typeof window.Lenis !== 'undefined') {
       lenis = new window.Lenis({
-        duration: 1.2,
+        duration: 1.25,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 1.0,
+        wheelMultiplier: 1.05,
         touchMultiplier: 1.5,
       });
 
@@ -44,9 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
-        playSound('nav');
+        playSound('katana');
+        triggerKatanaSlash();
+
         if (lenis) {
-          lenis.scrollTo(targetEl, { offset: -60, duration: 1.2 });
+          lenis.scrollTo(targetEl, { offset: -60, duration: 1.3 });
         } else {
           targetEl.scrollIntoView({ behavior: 'smooth' });
         }
@@ -64,7 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const backToTopBtn = document.getElementById('back-to-top');
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
-      playSound('click');
+      playSound('katana');
+      triggerKatanaSlash();
       if (lenis) {
         lenis.scrollTo(0, { duration: 1.5 });
       } else {
@@ -89,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderCursor() {
     if (isMoving && cursor) {
-      // Spring interpolation
       cursorX += (mouseX - cursorX) * 0.18;
       cursorY += (mouseY - cursorY) * 0.18;
       cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
@@ -203,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const particles = [];
-    const count = Math.min(50, Math.floor(width / 28));
+    const count = Math.min(45, Math.floor(width / 32));
 
     for (let i = 0; i < count; i++) {
       particles.push({
@@ -218,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function animateCanvas() {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw subtle connections
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         p1.x += p1.vx;
@@ -229,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (p1.y < 0) p1.y = height;
         if (p1.y > height) p1.y = 0;
 
-        // Interaction with mouse
         const dxMouse = mouseX - p1.x;
         const dyMouse = mouseY - p1.y;
         const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
@@ -265,13 +265,167 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     05. LIVE IST CLOCK (PUNE, INDIA)
+     05. KATANA SLASH PAGE-CUTTING ANIMATION ENGINE
+     ========================================================================== */
+  const slashCanvas = document.getElementById('katana-slash-canvas');
+  const bladeVisual = document.getElementById('katana-blade-visual');
+  let slashCtx = null;
+  let slashWidth = 0, slashHeight = 0;
+  const sparks = [];
+
+  if (slashCanvas) {
+    slashCtx = slashCanvas.getContext('2d');
+    slashWidth = slashCanvas.width = window.innerWidth;
+    slashHeight = slashCanvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      slashWidth = slashCanvas.width = window.innerWidth;
+      slashHeight = slashCanvas.height = window.innerHeight;
+    });
+  }
+
+  function triggerKatanaSlash() {
+    // 1. Blade visual flash
+    if (bladeVisual) {
+      bladeVisual.classList.remove('slashing');
+      void bladeVisual.offsetWidth; // Force reflow
+      bladeVisual.classList.add('slashing');
+    }
+
+    // 2. Spawn spark burst along the diagonal slash line
+    if (slashCtx) {
+      const sparkCount = 45;
+      const startX = slashWidth * 0.15;
+      const startY = slashHeight * 0.15;
+      const endX = slashWidth * 0.85;
+      const endY = slashHeight * 0.85;
+
+      for (let i = 0; i < sparkCount; i++) {
+        const t = Math.random();
+        const originX = startX + (endX - startX) * t;
+        const originY = startY + (endY - startY) * t;
+
+        // Eject perpendicular to slash angle
+        const angle = -Math.PI / 4 + (Math.random() - 0.5) * 1.2;
+        const speed = Math.random() * 8 + 3;
+
+        sparks.push({
+          x: originX,
+          y: originY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1.0,
+          decay: Math.random() * 0.04 + 0.02,
+          color: Math.random() > 0.4 ? '#00f0ff' : (Math.random() > 0.5 ? '#ffffff' : '#ccff00'),
+          size: Math.random() * 2.5 + 1,
+        });
+      }
+    }
+
+    playSound('katana');
+  }
+
+  function renderSlashParticles() {
+    if (slashCtx && sparks.length > 0) {
+      slashCtx.clearRect(0, 0, slashWidth, slashHeight);
+
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const s = sparks[i];
+        s.x += s.vx;
+        s.y += s.vy;
+        s.vy += 0.15; // Gravity
+        s.life -= s.decay;
+
+        if (s.life <= 0) {
+          sparks.splice(i, 1);
+        } else {
+          slashCtx.fillStyle = s.color;
+          slashCtx.globalAlpha = s.life;
+          slashCtx.beginPath();
+          slashCtx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+          slashCtx.fill();
+        }
+      }
+      slashCtx.globalAlpha = 1.0;
+    }
+    requestAnimationFrame(renderSlashParticles);
+  }
+  requestAnimationFrame(renderSlashParticles);
+
+  // Intersection Observer for Section Slicing on Scroll
+  const sectionBlocks = document.querySelectorAll('section.section-block, .hero-section');
+  let lastSlicedSection = null;
+
+  if ('IntersectionObserver' in window) {
+    const sliceObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.target !== lastSlicedSection) {
+            lastSlicedSection = entry.target;
+            entry.target.classList.add('katana-slice-section', 'sliced-enter');
+            triggerKatanaSlash();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    sectionBlocks.forEach((sec) => sliceObserver.observe(sec));
+  }
+
+  /* ==========================================================================
+     06. FORMULA 1 REV LIMITER & TACHOMETER SIMULATION ENGINE
+     ========================================================================== */
+  const f1Leds = document.querySelectorAll('.f1-led-group .led');
+  const gearDisplay = document.getElementById('f1-gear-indicator');
+  const speedDisplay = document.getElementById('f1-speed-val');
+
+  let lastScrollY = window.scrollY;
+  let scrollVelocity = 0;
+  let smoothedVelocity = 0;
+
+  function updateF1Telemetry() {
+    const currentY = window.scrollY;
+    scrollVelocity = Math.abs(currentY - lastScrollY);
+    lastScrollY = currentY;
+
+    // Smooth lerp for RPM feel
+    smoothedVelocity += (scrollVelocity - smoothedVelocity) * 0.15;
+
+    // Map velocity to 15 LEDs
+    const activeLeds = Math.min(15, Math.floor(smoothedVelocity / 3.5));
+
+    f1Leds.forEach((led, idx) => {
+      if (idx < activeLeds) {
+        led.classList.add('active');
+      } else {
+        led.classList.remove('active');
+      }
+    });
+
+    // Dynamic Gear shifting (G1 to G8)
+    if (gearDisplay) {
+      let gear = Math.min(8, Math.max(1, Math.floor(smoothedVelocity / 6) + 1));
+      gearDisplay.textContent = `G${gear}`;
+    }
+
+    // Dynamic Speed simulation (up to 348 KM/H with DRS active)
+    if (speedDisplay) {
+      let speed = Math.min(348, Math.floor(280 + smoothedVelocity * 2.2));
+      speedDisplay.textContent = `${speed} KM/H`;
+    }
+
+    requestAnimationFrame(updateF1Telemetry);
+  }
+  requestAnimationFrame(updateF1Telemetry);
+
+  /* ==========================================================================
+     07. LIVE IST CLOCK (PUNE, INDIA)
      ========================================================================== */
   const clockEl = document.getElementById('live-ist-clock');
   function updateISTClock() {
     if (!clockEl) return;
     const now = new Date();
-    // Format in IST (UTC + 5:30)
     const options = {
       timeZone: 'Asia/Kolkata',
       hour12: false,
@@ -286,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateISTClock, 1000);
 
   /* ==========================================================================
-     06. WEB AUDIO MICRO-SYNTHESIZER (SOUND INTERACTIONS)
+     08. WEB AUDIO SYNTHESIZER (KATANA SLASH, F1 REV & CLICKS)
      ========================================================================== */
   let audioCtx = null;
   let soundEnabled = false;
@@ -304,14 +458,31 @@ document.addEventListener('DOMContentLoaded', () => {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
 
       const now = audioCtx.currentTime;
 
-      if (type === 'hover') {
+      if (type === 'katana') {
+        // Metallic Katana blade unsheathe & aerodynamic whoosh
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.frequency.setValueAtTime(2400, now);
+        osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
+
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+
+        osc.start(now);
+        osc.stop(now + 0.18);
+      } else if (type === 'hover') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
         osc.frequency.setValueAtTime(320, now);
         osc.frequency.exponentialRampToValueAtTime(480, now + 0.04);
         gain.gain.setValueAtTime(0.015, now);
@@ -319,6 +490,11 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.start(now);
         osc.stop(now + 0.04);
       } else if (type === 'nav') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
         osc.frequency.setValueAtTime(440, now);
         osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
         gain.gain.setValueAtTime(0.03, now);
@@ -326,7 +502,12 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.start(now);
         osc.stop(now + 0.08);
       } else {
-        // Crisp click
+        // Crisp high-tech click
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
         osc.frequency.setValueAtTime(600, now);
         osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
         gain.gain.setValueAtTime(0.04, now);
@@ -350,8 +531,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (soundEnabled) {
         if (offIcon) offIcon.style.display = 'none';
         if (onIcon) onIcon.style.display = 'block';
-        showToast('Sound effects enabled');
-        playSound('nav');
+        showToast('Audio Telemetry & Katana SFX Active');
+        playSound('katana');
       } else {
         if (offIcon) offIcon.style.display = 'block';
         if (onIcon) onIcon.style.display = 'none';
@@ -361,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     07. PROJECTS VIEW MODE TOGGLE (CARDS vs. INDEX TABLE)
+     09. PROJECTS VIEW MODE TOGGLE (CARDS vs. INDEX TABLE)
      ========================================================================== */
   const gridBtn = document.getElementById('view-grid-btn');
   const listBtn = document.getElementById('view-list-btn');
@@ -370,7 +551,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (gridBtn && listBtn && gridView && listView) {
     gridBtn.addEventListener('click', () => {
-      playSound('click');
+      playSound('katana');
+      triggerKatanaSlash();
       gridBtn.classList.add('active');
       listBtn.classList.remove('active');
       gridView.style.display = 'grid';
@@ -378,7 +560,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     listBtn.addEventListener('click', () => {
-      playSound('click');
+      playSound('katana');
+      triggerKatanaSlash();
       listBtn.classList.add('active');
       gridBtn.classList.remove('active');
       gridView.style.display = 'none';
@@ -387,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     08. SKILLS MATRIX FILTERING
+     10. SKILLS MATRIX FILTERING
      ========================================================================== */
   const skillTabs = document.querySelectorAll('.skill-tab');
   const skillChips = document.querySelectorAll('.skill-chip');
@@ -412,14 +595,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================================
-     09. BIBTEX CITATION COPY & DRAWER TOGGLE
+     11. BIBTEX CITATION COPY & DRAWER TOGGLE
      ========================================================================== */
   const copyBibtexBtn = document.getElementById('copy-bibtex-btn');
   const bibtexContainer = document.getElementById('bibtex-container');
 
   if (copyBibtexBtn && bibtexContainer) {
     copyBibtexBtn.addEventListener('click', () => {
-      playSound('click');
+      playSound('katana');
+      triggerKatanaSlash();
       const isVisible = bibtexContainer.style.display === 'block';
       bibtexContainer.style.display = isVisible ? 'none' : 'block';
 
@@ -443,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     10. COPY EMAIL BUTTONS & TOAST NOTIFICATION
+     12. COPY EMAIL BUTTONS & TOAST NOTIFICATION
      ========================================================================== */
   const copyEmailBtn = document.getElementById('copy-email-btn');
   if (copyEmailBtn) {
@@ -469,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     11. MOBILE DRAWER TOGGLE
+     13. MOBILE DRAWER TOGGLE
      ========================================================================== */
   const mobileToggle = document.getElementById('mobile-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer');
@@ -482,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     12. TACTICAL HERO PORTRAIT TILT EFFECT
+     14. TACTICAL HERO PORTRAIT TILT EFFECT
      ========================================================================== */
   const portraitFrame = document.getElementById('hero-portrait-frame');
   if (portraitFrame && window.innerWidth > 992) {

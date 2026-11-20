@@ -1,6 +1,7 @@
 /* ==========================================================================
    VEENIT RAMTEKE — STRIKE-INSPIRED DESIGN SYSTEM
    Modern Dark Brutalism · 60fps Momentum · High-Fashion Typography
+   F1 Motorsport Telemetry · Cyber Katana Blade Page-Cutting Engine
    ========================================================================== */
 
 /* ── 01. CSS VARIABLES & DESIGN TOKENS ── */
@@ -14,24 +15,37 @@
   --text-secondary: #8d94a0;
   --text-muted: #575e6b;
   
+  /* F1 Racing & Katana Palette */
   --accent-lime: #ccff00;
-  --accent-lime-glow: rgba(204, 255, 0, 0.25);
-  --accent-teal: #00f0ff;
-  --accent-coral: #ff5e4d;
+  --accent-lime-glow: rgba(204, 255, 0, 0.3);
+  --f1-red: #e10600;
+  --f1-red-glow: rgba(225, 6, 0, 0.4);
+  --f1-cyan: #00f0ff;
+  --f1-cyan-glow: rgba(0, 240, 255, 0.35);
+  --f1-gold: #ffcc00;
+  --f1-purple: #9d00ff;
   
   --border-hairline: rgba(255, 255, 255, 0.08);
   --border-medium: rgba(255, 255, 255, 0.16);
   --border-accent: rgba(204, 255, 0, 0.4);
+  --border-f1: rgba(225, 6, 0, 0.4);
 
   --font-display: 'Syne', sans-serif;
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
 
   --ease-strike: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-katana: cubic-bezier(0.05, 0.95, 0.15, 1);
   --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   --container-max: 1380px;
+
+  /* Carbon Fiber Texture */
+  --carbon-pattern: radial-gradient(black 15%, transparent 16%) 0 0,
+                    radial-gradient(black 15%, transparent 16%) 6px 6px,
+                    radial-gradient(rgba(255,255,255,.05) 15%, transparent 20%) 0 1px,
+                    radial-gradient(rgba(255,255,255,.05) 15%, transparent 20%) 6px 7px;
 }
 
 /* ── 02. GLOBAL RESET & BASE RULES ── */
@@ -89,6 +103,259 @@ body {
   pointer-events: none;
   z-index: 0;
   opacity: 0.45;
+}
+
+/* ── 04B. KATANA SLASH PAGE CUTTING CANVAS ── */
+.katana-slash-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9995;
+}
+
+.katana-blade-visual {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 140vw;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffffff, var(--f1-cyan), #ffffff, transparent);
+  box-shadow: 0 0 25px #ffffff, 0 0 50px var(--f1-cyan);
+  pointer-events: none;
+  z-index: 9996;
+  opacity: 0;
+  transform: translate3d(-100vw, -100vh, 0) rotate(-22deg);
+  transition: opacity 0.15s ease;
+  will-change: transform, opacity;
+}
+
+.katana-blade-visual.slashing {
+  opacity: 1;
+  animation: katana-hyper-slash 0.38s cubic-bezier(0.05, 0.9, 0.1, 1) forwards;
+}
+
+@keyframes katana-hyper-slash {
+  0% {
+    transform: translate3d(-60vw, -40vh, 0) rotate(-22deg) scaleX(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+    transform: translate3d(10vw, 20vh, 0) rotate(-22deg) scaleX(1.4);
+  }
+  100% {
+    transform: translate3d(120vw, 110vh, 0) rotate(-22deg) scaleX(0.8);
+    opacity: 0;
+  }
+}
+
+/* Sliced Section Transition States */
+.katana-slice-section {
+  position: relative;
+  transition: clip-path 0.5s var(--ease-katana), transform 0.5s var(--ease-katana);
+}
+
+.katana-slice-section.sliced-enter {
+  animation: katana-section-unfurl 0.6s var(--ease-katana) forwards;
+}
+
+@keyframes katana-section-unfurl {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 10%, 0 25%);
+    transform: translate3d(-12px, 8px, 0) skewX(-1.5deg);
+    filter: brightness(1.6) contrast(1.2);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    transform: translate3d(4px, -2px, 0) skewX(0.5deg);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: translate3d(0, 0, 0) skewX(0);
+    filter: brightness(1) contrast(1);
+  }
+}
+
+/* Katana Slash Divider (Apex Curbing + Spark line) */
+.katana-slash-divider {
+  width: 100%;
+  position: relative;
+  padding: 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.katana-slash-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--f1-red) 0px,
+    var(--f1-red) 16px,
+    #ffffff 16px,
+    #ffffff 32px
+  );
+  opacity: 0.35;
+  transform: skewX(-25deg);
+}
+
+.katana-cut-badge {
+  position: relative;
+  z-index: 5;
+  background: #020305;
+  border: 1px solid var(--border-medium);
+  border-left: 3px solid var(--accent-lime);
+  border-right: 3px solid var(--f1-red);
+  padding: 6px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+}
+
+/* ── F1 REV LIMITER & STEERING WHEEL SHIFT LIGHTS ── */
+.f1-rev-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  padding: 4px 16px;
+  background: rgba(8, 10, 14, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+.f1-led-group {
+  display: flex;
+  gap: 6px;
+}
+
+.led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1a1e26;
+  transition: background 0.1s ease, box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+.led-g.active {
+  background: #00ff44;
+  box-shadow: 0 0 10px #00ff44, 0 0 18px rgba(0, 255, 68, 0.6);
+  transform: scale(1.15);
+}
+
+.led-r.active {
+  background: #ff0022;
+  box-shadow: 0 0 10px #ff0022, 0 0 18px rgba(255, 0, 34, 0.7);
+  transform: scale(1.15);
+}
+
+.led-p.active {
+  background: #bb00ff;
+  box-shadow: 0 0 12px #bb00ff, 0 0 22px rgba(187, 0, 255, 0.8);
+  transform: scale(1.2);
+  animation: led-redline-flash 0.12s infinite alternate;
+}
+
+@keyframes led-redline-flash {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.f1-gear-display {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-lime);
+  background: #000000;
+  padding: 1px 7px;
+  border-radius: 3px;
+  border: 1px solid rgba(204, 255, 0, 0.4);
+  letter-spacing: 0.05em;
+}
+
+/* F1 Telemetry Pill */
+.f1-telemetry-pill {
+  border-color: rgba(225, 6, 0, 0.35) !important;
+}
+
+.f1-drs-tag {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.drs-active {
+  color: var(--accent-lime);
+  background: rgba(204, 255, 0, 0.15);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+.f1-speed-display {
+  color: var(--f1-cyan);
+  font-weight: 700;
+}
+
+.f1-racing-badge {
+  background: linear-gradient(135deg, var(--f1-red), #990000) !important;
+  color: #ffffff !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.f1-flag-tick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    180deg,
+    #ffffff 0px,
+    #ffffff 4px,
+    #000000 4px,
+    #000000 8px
+  );
+}
+
+/* Carbon Fiber Chassis Texture on Key Cards */
+.project-card,
+.publication-card,
+.award-card,
+.experience-card,
+.edu-card,
+.resume-dossier-card {
+  background-color: #0b0d12 !important;
+  background-image: var(--carbon-pattern) !important;
+  background-size: 12px 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.project-card:hover,
+.award-card:hover,
+.resume-dossier-card:hover {
+  border-color: var(--f1-cyan) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.15) !important;
 }
 
 /* ── 05. CUSTOM CONTEXTUAL CURSOR ── */
