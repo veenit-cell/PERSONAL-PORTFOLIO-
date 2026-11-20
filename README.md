@@ -6,8 +6,8 @@
   <p><strong>AI &amp; Systems Engineer · Researcher · BBA (DBE) @ IIM Bangalore &amp; B.Tech CSE @ GHRCEM</strong></p>
 
   [![Website Status](https://img.shields.io/badge/Live%20Demo-Vercel%20Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://veenit-strike-portfolio.vercel.app)
-  [![UX Style](https://img.shields.io/badge/UX%20Style-Strike.uno%20Inspired-ccff00?style=for-the-badge&logoColor=black)](https://veenit-strike-portfolio.vercel.app)
-  [![Performance](https://img.shields.io/badge/FPS-60%20Momentum%20Scroll-00f0ff?style=for-the-badge)](https://veenit-strike-portfolio.vercel.app)
+  [![Theme](https://img.shields.io/badge/Theme-Red%20%26%20Black%20F1-e10600?style=for-the-badge&logoColor=white)](https://veenit-strike-portfolio.vercel.app)
+  [![Transition](https://img.shields.io/badge/Mechanic-Katana%20Blade%20Slice-ffffff?style=for-the-badge&logoColor=black)](https://veenit-strike-portfolio.vercel.app)
   [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.19552932-blue?style=for-the-badge&logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.19552932)
   [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -31,18 +31,19 @@
 
 ## 🌟 Overview
 
-This repository hosts the next-generation personal portfolio for **Veenit Ramteke**, designed with the luxury brutalist aesthetic, tactile motion, and fluid micro-interactions popularized by award-winning digital creative studios like **[strike.uno](https://strike.uno/)**.
+This repository hosts the **Formula 1 & Katana Slice** portfolio for **Veenit Ramteke**, designed in an aggressive **Red and Black** livery with high-performance sports car telemetry and an interactive **Katana Blade Page-Cutting Transition Engine**.
 
-The website presents Veenit's work spanning disaster response intelligence, financial fraud detection, embedded robotics, and peer-reviewed academic research within a high-performance, 60fps kinetic digital interface.
+The site showcases Veenit's work spanning disaster response intelligence, financial fraud detection, embedded robotics, and peer-reviewed academic research within a high-velocity, 60fps kinetic digital interface.
 
 ---
 
-## ⚡ Signature UX & Interactions
+## ⚡ Signature Mechanics & Design
 
-- **Katana Blade Page-Cutting Engine**: While scrolling, sharp diagonal energy slashes with dynamic particle sparks slice open new sections, accompanied by metallic blade unsheathe sound synthesis and sliced-polygon unmasking animations.
-- **F1 Steering Wheel Shift Lights & Telemetry**: 15 rev-limiter LEDs (5 Green, 5 Red, 5 Purple) in the sticky header that illuminate progressively based on scroll velocity, flashing purple at redline alongside dynamic gear shifts (G1–G8) and a simulated 340+ KM/H speed tachometer with active DRS.
-- **Momentum Virtual Scroll**: Powered by **Lenis**, delivering virtual inertia scrolling without native browser stutter.
-- **Dynamic Contextual Cursor**: Dual-ring cursor with spring physics interpolation, expanding to context badges (`VIEW`) over project assets, inverting on text, and magnetically snapping to interactive controls.
+- **Red & Black F1 Livery**: Pure motorsport cockpit palette featuring pitch black carbon monocoque, Scuderia racing red (`#E10600` / `#FF1801`), and titanium white typography with carbon fiber twill weave textures.
+- **Katana Blade Page-Cutting Engine**: Moving through the site triggers high-voltage diagonal energy slashes across the screen with particle sparks and sliced-polygon unmasking, alongside interactive "Slash to Next" gates.
+- **F1 Steering Wheel Shift Lights**: 15 tachometer LEDs (Yellow/Green -> Red -> Flashing Purple) reacting in real-time to scroll velocity with dynamic gear shifts (G1–G8) and a 348 KM/H DRS speedometer.
+- **Virtual Momentum Scroll**: Powered by **Lenis**, delivering virtual inertia scrolling without native browser stutter.
+- **Synthesized Audio Engine**: Built-in Web Audio API synthesizers producing metallic Katana sword draws, blade swings, and F1 pit communication clicks.
 - **Floating Project Preview Tracker (Signature `strike.uno` Interaction)**: An interactive project index table where hovering over any project name smoothly spawns and trails a floating preview card with rotational physics following the user's pointer.
 - **Hardware-Accelerated Ambient Canvas**: Interactive particle and connection network reacting to pointer velocity and proximity.
 - **Motorsport Carbon Fiber Aesthetics**: Textured carbon fiber weave surfaces, F1 racing red (`#E10600`) and Petronas cyan (`#00F0FF`) accents, and checkered apex curbing section dividers.

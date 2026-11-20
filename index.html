@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="theme-color" content="#060709">
-  <meta name="description" content="Veenit Ramteke — AI & Software Engineer portfolio inspired by modern luxury brutalist studios. Disaster response intelligence, financial fraud detection, and academic research.">
+  <meta name="theme-color" content="#050507">
+  <meta name="description" content="Veenit Ramteke — AI & Software Systems Engineer. Formula 1 telemetry aesthetic and Katana blade transition engine. High-performance computing, disaster intelligence, fraud detection.">
   
-  <title>Veenit Ramteke — AI &amp; Systems Engineer</title>
+  <title>Veenit Ramteke — F1 Telemetry &amp; AI Systems</title>
 
-  <!-- Typography: Syne (Editorial Display), DM Sans (Body), Space Mono & JetBrains Mono (Metadata) -->
+  <!-- High-Octane Fonts: Syne (Display), DM Sans (Body), JetBrains Mono (Telemetry) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono:ital,wght@0,700;1,700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -21,250 +21,257 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-void text-neutral selection-accent">
+<body class="bg-carbon-void text-pure-white selection-f1-red">
 
-  <!-- ── TACTILE FILM NOISE OVERLAY ── -->
-  <div class="film-grain" aria-hidden="true"></div>
+  <!-- ── MOTORSPORT CARBON FIBER OVERLAY ── -->
+  <div class="carbon-weave-overlay" aria-hidden="true"></div>
 
-  <!-- ── HARDWARE-ACCELERATED BACKGROUND CANVAS ── -->
-  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  <!-- ── AERODYNAMIC WIND TUNNEL & SPEED LINE CANVAS ── -->
+  <canvas id="f1-streamline-canvas" class="f1-streamline-canvas" aria-hidden="true"></canvas>
 
-  <!-- ── KATANA SLASH PAGE CUTTING CANVAS ── -->
-  <canvas id="katana-slash-canvas" class="katana-slash-canvas" aria-hidden="true"></canvas>
-  <div id="katana-blade-visual" class="katana-blade-visual" aria-hidden="true">
-    <div class="blade-gleam"></div>
+  <!-- ── KATANA PAGE-CUTTING SCREEN SLICE CANVAS ── -->
+  <canvas id="katana-cut-canvas" class="katana-cut-canvas" aria-hidden="true"></canvas>
+  <div id="katana-blade-flash" class="katana-blade-flash" aria-hidden="true">
+    <div class="blade-core"></div>
+    <div class="blade-sparks-line"></div>
   </div>
 
-  <!-- ── DYNAMIC CONTEXTUAL CURSOR ── -->
-  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
-    <div class="cursor-badge">VIEW</div>
-    <div class="cursor-blade-trail"></div>
+  <!-- ── KATANA BLADE MOUSE CURSOR ── -->
+  <div id="katana-cursor" class="katana-cursor" aria-hidden="true">
+    <div class="cursor-crosshair"></div>
+    <div class="cursor-blade-tip"></div>
+    <div class="cursor-speed-tag">DRS</div>
   </div>
 
-  <!-- ── FLOATING PROJECT THUMBNAIL TRACKER (SIGNATURE STRIKE.UNO UX) ── -->
+  <!-- ── FLOATING PROJECT THUMBNAIL TRACKER ── -->
   <div id="floating-preview" class="floating-preview" aria-hidden="true">
-    <img id="floating-preview-img" src="" alt="Project Preview">
+    <img id="floating-preview-img" src="" alt="Project Telemetry Preview">
     <div class="floating-preview-meta">
-      <span id="floating-preview-tag" class="tag">AI // PLATFORM</span>
+      <span id="floating-preview-tag" class="tag">SECTOR 02 // CHASSIS</span>
       <span id="floating-preview-title" class="title">DRISHTI</span>
     </div>
   </div>
 
   <!-- ── TOAST NOTIFICATION ── -->
   <div id="toast" class="toast" role="status" aria-live="polite">
-    <i data-lucide="check-circle" class="toast-icon"></i>
-    <span id="toast-message">Copied to clipboard</span>
+    <i data-lucide="zap" class="toast-icon"></i>
+    <span id="toast-message">Telemetry Synchronized</span>
   </div>
 
-  <!-- ── FLOATING GLASS NAVIGATION WITH F1 SHIFT LIGHTS ── -->
-  <header class="nav-wrapper">
-    <!-- F1 Steering Wheel Rev Limiter / LED Shift Lights -->
-    <div class="f1-rev-bar" id="f1-rev-bar" aria-label="F1 Telemetry Tachometer Shift Lights">
-      <div class="f1-led-group">
-        <span class="led led-g" data-level="1"></span>
-        <span class="led led-g" data-level="2"></span>
-        <span class="led led-g" data-level="3"></span>
-        <span class="led led-g" data-level="4"></span>
-        <span class="led led-g" data-level="5"></span>
+  <!-- ── F1 COCKPIT HUD & STEERING WHEEL NAVIGATION ── -->
+  <header class="f1-cockpit-header">
+    
+    <!-- F1 Rev Limiter Shift Lights Bar (5 Yellow/Green, 5 Red, 5 Flashing Blue) -->
+    <div class="f1-shift-bar" id="f1-shift-bar" aria-label="F1 Steering Wheel Tachometer">
+      <div class="rev-group rev-green">
+        <span class="rev-led" data-idx="0"></span>
+        <span class="rev-led" data-idx="1"></span>
+        <span class="rev-led" data-idx="2"></span>
+        <span class="rev-led" data-idx="3"></span>
+        <span class="rev-led" data-idx="4"></span>
       </div>
-      <div class="f1-led-group">
-        <span class="led led-r" data-level="6"></span>
-        <span class="led led-r" data-level="7"></span>
-        <span class="led led-r" data-level="8"></span>
-        <span class="led led-r" data-level="9"></span>
-        <span class="led led-r" data-level="10"></span>
+      <div class="rev-group rev-red">
+        <span class="rev-led" data-idx="5"></span>
+        <span class="rev-led" data-idx="6"></span>
+        <span class="rev-led" data-idx="7"></span>
+        <span class="rev-led" data-idx="8"></span>
+        <span class="rev-led" data-idx="9"></span>
       </div>
-      <div class="f1-led-group">
-        <span class="led led-p" data-level="11"></span>
-        <span class="led led-p" data-level="12"></span>
-        <span class="led led-p" data-level="13"></span>
-        <span class="led led-p" data-level="14"></span>
-        <span class="led led-p" data-level="15"></span>
+      <div class="rev-group rev-purple">
+        <span class="rev-led" data-idx="10"></span>
+        <span class="rev-led" data-idx="11"></span>
+        <span class="rev-led" data-idx="12"></span>
+        <span class="rev-led" data-idx="13"></span>
+        <span class="rev-led" data-idx="14"></span>
       </div>
-      <div class="f1-gear-display" id="f1-gear-indicator">G8</div>
+      <div class="cockpit-gear-box">
+        <span class="gear-label">GEAR</span>
+        <span id="cockpit-gear" class="gear-num">8</span>
+      </div>
     </div>
 
-    <nav class="nav-pill" aria-label="Main Navigation">
-      <!-- Wordmark -->
-      <a href="#top" class="nav-brand magnetic-item" aria-label="Veenit Ramteke Home">
-        <span class="brand-monogram f1-racing-badge">
-          <span class="f1-flag-tick"></span>VR
-        </span>
-        <span class="brand-text">
-          <strong class="brand-name">VEENIT RAMTEKE</strong>
-          <span class="brand-role">PADDOCK ENGINEERING // AI</span>
-        </span>
+    <!-- Glassmorphic Cockpit Navigation Pill -->
+    <nav class="f1-nav-pill" aria-label="F1 Paddock Navigation">
+      
+      <!-- Driver Branding -->
+      <a href="#top" class="f1-driver-badge magnetic-item" aria-label="Veenit Ramteke Home">
+        <span class="f1-number-plate">VR</span>
+        <div class="f1-driver-meta">
+          <strong class="f1-driver-name">VEENIT RAMTEKE</strong>
+          <span class="f1-championship">PADDOCK ENGINEERING // AI</span>
+        </div>
       </a>
 
-      <!-- F1 Telemetry Status Pill -->
-      <div class="nav-status-pill f1-telemetry-pill">
-        <span class="f1-drs-tag">DRS <span class="drs-active">ON</span></span>
-        <span class="status-divider">|</span>
-        <span class="f1-speed-display" id="f1-speed-val">324 KM/H</span>
-        <span class="status-divider">|</span>
-        <span id="live-ist-clock" class="status-clock">PUNE 00:00:00 IST</span>
+      <!-- Telemetry Live Bar -->
+      <div class="f1-live-telemetry">
+        <span class="telemetry-item">
+          <span class="pulse-indicator red-glow"></span>
+          <span class="label">DRS:</span> <strong class="val text-f1-red">ACTIVE</strong>
+        </span>
+        <span class="telemetry-pipe">|</span>
+        <span class="telemetry-item">
+          <span class="label">SPEED:</span> <strong id="telemetry-speed" class="val">338 KM/H</strong>
+        </span>
+        <span class="telemetry-pipe">|</span>
+        <span id="live-ist-clock" class="telemetry-clock">PUNE 00:00:00 IST</span>
       </div>
 
-      <!-- Navigation Links -->
-      <div class="nav-links">
-        <a href="#projects" class="nav-link magnetic-item">Projects</a>
-        <a href="#publication" class="nav-link magnetic-item">Research</a>
-        <a href="#experience" class="nav-link magnetic-item">Experience</a>
-        <a href="#resume" class="nav-link magnetic-item">Resume</a>
-        <a href="#about" class="nav-link magnetic-item">About</a>
-        <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" class="nav-link nav-resume-btn magnetic-item" title="Download Official Resume PDF">
-          <i data-lucide="file-text" class="nav-icon"></i>
+      <!-- Quick Nav Links -->
+      <div class="f1-nav-links">
+        <a href="#projects" class="f1-nav-link magnetic-item">Projects</a>
+        <a href="#publication" class="f1-nav-link magnetic-item">Research</a>
+        <a href="#experience" class="f1-nav-link magnetic-item">Experience</a>
+        <a href="#resume" class="f1-nav-link magnetic-item">Resume</a>
+        <a href="#about" class="f1-nav-link magnetic-item">Arsenal</a>
+        <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="f1-nav-link f1-cv-pill magnetic-item" title="Download Official Resume">
+          <i data-lucide="file-down" class="f1-icon"></i>
           <span>CV</span>
         </a>
-        <a href="#contact" class="nav-link nav-cta magnetic-item">
-          <span>Let's Talk</span>
-          <i data-lucide="arrow-up-right" class="nav-icon"></i>
+        <a href="#contact" class="f1-nav-link f1-pit-cta magnetic-item">
+          <span>Pit Wall</span>
+          <i data-lucide="flag" class="f1-icon"></i>
         </a>
       </div>
 
-      <!-- Audio / Haptics Toggle -->
-      <button id="sound-toggle" class="sound-toggle magnetic-item" aria-label="Toggle ambient click audio" title="Sound micro-interactions">
+      <!-- Audio Switch -->
+      <button id="sound-toggle" class="f1-audio-btn magnetic-item" aria-label="Toggle Sound telemetry & Katana SFX" title="Katana & Engine Audio">
         <i data-lucide="volume-x" class="sound-off-icon"></i>
         <i data-lucide="volume-2" class="sound-on-icon" style="display:none;"></i>
       </button>
 
-      <!-- Mobile Menu Toggle -->
-      <button id="mobile-toggle" class="mobile-toggle" aria-label="Open navigation menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+      <!-- Mobile Cockpit Toggle -->
+      <button id="mobile-toggle" class="f1-mobile-burger" aria-label="Toggle Cockpit Menu">
+        <span></span>
+        <span></span>
       </button>
     </nav>
 
     <!-- Mobile Drawer -->
-    <div id="mobile-drawer" class="mobile-drawer">
-      <div class="drawer-links">
-        <a href="#projects" class="drawer-link"><span class="num">01</span> Projects</a>
-        <a href="#publication" class="drawer-link"><span class="num">02</span> Research</a>
-        <a href="#experience" class="drawer-link"><span class="num">03</span> Experience</a>
-        <a href="#resume" class="drawer-link"><span class="num">04</span> Resume</a>
-        <a href="#about" class="drawer-link"><span class="num">05</span> About</a>
-        <a href="#contact" class="drawer-link"><span class="num">06</span> Contact</a>
-        <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="drawer-link text-accent"><span class="num">07</span> Download CV (PDF) ↗</a>
+    <div id="mobile-drawer" class="f1-mobile-drawer">
+      <div class="drawer-header">
+        <span class="drawer-title">PADDOCK NAVIGATION // 2026</span>
       </div>
-      <div class="drawer-footer">
-        <p>PUNE, INDIA · IIM BANGALORE &amp; GHRCEM</p>
-        <a href="mailto:veenitramteke@gmail.com" class="drawer-email">veenitramteke@gmail.com</a>
+      <div class="drawer-links">
+        <a href="#projects" class="drawer-link"><span class="sector-num">S1</span> Projects Telemetry</a>
+        <a href="#publication" class="drawer-link"><span class="sector-num">S2</span> Scientific Research</a>
+        <a href="#honors" class="drawer-link"><span class="sector-num">S3</span> Grand Prix Trophies</a>
+        <a href="#experience" class="drawer-link"><span class="sector-num">S4</span> Pit Strategy (PPGF)</a>
+        <a href="#education" class="drawer-link"><span class="sector-num">S5</span> Driver Academy (IIMB/GHRCEM)</a>
+        <a href="#about" class="drawer-link"><span class="sector-num">S6</span> Technical Arsenal</a>
+        <a href="#resume" class="drawer-link text-f1-red"><span class="sector-num">S7</span> Official Resume (PDF)</a>
+        <a href="#contact" class="drawer-link"><span class="sector-num">FINISH</span> Radio Pit Wall</a>
       </div>
     </div>
   </header>
 
-  <!-- ── MAIN WRAPPER ── -->
+  <!-- ── MAIN CONTENT ── -->
   <main id="main" class="main-content">
 
-    <!-- ── 01. HERO / INTRODUCTION SECTION ── -->
-    <section id="top" class="hero-section">
-      <div class="container hero-container">
+    <!-- ── 01. HERO / POLE POSITION ── -->
+    <section id="top" class="f1-section hero-section">
+      <div class="container">
 
-        <!-- Blueprint Index Marker -->
-        <div class="section-marker">
-          <span class="marker-index">[01 // INDEX]</span>
-          <span class="marker-spec">COORDINATES: 18.5204° N, 73.8567° E · PUNE</span>
-          <span class="marker-status">STATUS: ONLINE</span>
+        <!-- Sector Tag -->
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 01 // POLE POSITION</span>
+          <span class="sector-meta">TELEMETRY: OPTIMAL DOWNFORCE · CHASSIS VR-26</span>
+          <span class="sector-time">P1 · 1:18.420s</span>
         </div>
 
-        <!-- Hero Headline Layout -->
-        <div class="hero-grid">
+        <div class="hero-f1-grid">
           
-          <div class="hero-typography">
-            <div class="hero-tagline-wrapper">
-              <span class="hero-kicker">AI &amp; SOFTWARE SYSTEMS ENGINEER</span>
+          <div class="hero-left">
+            <div class="f1-drs-banner">
+              <span class="drs-light red"></span>
+              <span class="drs-text">DRS DETECTION ZONE 1 // SYSTEM ARMED</span>
             </div>
 
-            <h1 class="hero-title">
-              <span class="title-line">ARCHITECTING</span>
-              <span class="title-line text-accent">INTELLIGENT</span>
-              <span class="title-line">SYSTEMS.</span>
-              <span class="title-line text-stroke">ENGINEERING</span>
-              <span class="title-line">DECISION ENGINES.</span>
+            <h1 class="hero-f1-title">
+              <span class="title-row">PRECISION</span>
+              <span class="title-row text-f1-red">ENGINEERED</span>
+              <span class="title-row">AI SYSTEMS.</span>
+              <span class="title-row text-carbon-stroke">HIGH-STAKES</span>
+              <span class="title-row">EXECUTION.</span>
             </h1>
 
-            <p class="hero-description">
-              Building at the intersection of <strong>Machine Learning</strong>, <strong>Geospatial Intelligence</strong>, and <strong>Deterministic Distributed Systems</strong>. Currently pursuing a dual-track academic path across <strong>IIM Bangalore</strong> and <strong>GH Raisoni College of Engineering</strong>.
+            <p class="hero-f1-lead">
+              Operating at maximum velocity across <strong>Machine Learning</strong>, <strong>Geospatial Intelligence</strong>, and <strong>Deterministic Distributed Systems</strong>. Pursuing dual-track excellence across <strong>IIM Bangalore</strong> and <strong>GH Raisoni College of Engineering</strong>.
             </p>
 
-            <!-- Hero Action Buttons -->
-            <div class="hero-actions">
-              <a href="#projects" class="btn btn-primary magnetic-item">
-                <span>Explore Works</span>
-                <i data-lucide="arrow-down" class="btn-icon"></i>
+            <!-- Action Triggers -->
+            <div class="hero-f1-actions">
+              <button class="btn btn-slash-next magnetic-item" data-slash-target="#projects">
+                <i data-lucide="sword" class="btn-icon"></i>
+                <span>Slash to Projects</span>
+                <i data-lucide="chevrons-down" class="btn-icon"></i>
+              </button>
+              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="btn btn-f1-red magnetic-item">
+                <i data-lucide="download" class="btn-icon"></i>
+                <span>Download CV (PDF)</span>
               </a>
-              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="btn btn-accent-glow magnetic-item" title="Download Official Resume PDF">
-                <i data-lucide="file-down" class="btn-icon"></i>
-                <span>Download CV</span>
-              </a>
-              <a href="#publication" class="btn btn-secondary magnetic-item">
+              <a href="#publication" class="btn btn-carbon magnetic-item">
+                <i data-lucide="book-marked" class="btn-icon"></i>
                 <span>Peer-Reviewed Paper</span>
-                <i data-lucide="book-open" class="btn-icon"></i>
               </a>
-              <button id="copy-email-btn" class="btn btn-tertiary magnetic-item" data-email="veenitramteke@gmail.com">
+              <button id="copy-email-btn" class="btn btn-ghost magnetic-item" data-email="veenitramteke@gmail.com">
                 <i data-lucide="copy" class="btn-icon"></i>
-                <span>Copy Email</span>
+                <span>Radio Driver</span>
               </button>
             </div>
 
-            <!-- Key Quick Stats -->
-            <div class="hero-stats-strip">
-              <div class="stat-cell">
-                <span class="stat-number">1st</span>
-                <span class="stat-label">AVINYA IIT Guwahati Winner</span>
+            <!-- Pit Board Telemetry Stats -->
+            <div class="f1-pit-board">
+              <div class="pit-col">
+                <span class="pit-val text-f1-red">P1</span>
+                <span class="pit-label">AVINYA IIT Guwahati Winner</span>
               </div>
-              <div class="stat-separator"></div>
-              <div class="stat-cell">
-                <span class="stat-number">1st</span>
-                <span class="stat-label">Electronova Robotics Winner</span>
+              <div class="pit-divider"></div>
+              <div class="pit-col">
+                <span class="pit-val text-f1-red">P1</span>
+                <span class="pit-label">Electronova Robotics Winner</span>
               </div>
-              <div class="stat-separator"></div>
-              <div class="stat-cell">
-                <span class="stat-number">8.5</span>
-                <span class="stat-label">B.Tech CSE CGPA</span>
+              <div class="pit-divider"></div>
+              <div class="pit-col">
+                <span class="pit-val">8.5</span>
+                <span class="pit-label">B.Tech CSE CGPA</span>
               </div>
-              <div class="stat-separator"></div>
-              <div class="stat-cell">
-                <span class="stat-number">1</span>
-                <span class="stat-label">Published Journal DOI</span>
+              <div class="pit-divider"></div>
+              <div class="pit-col">
+                <span class="pit-val">DOI</span>
+                <span class="pit-label">HBRP Published Paper</span>
               </div>
             </div>
+
           </div>
 
-          <!-- Hero Portrait Showcase with Tactical Blueprint Frame -->
-          <div class="hero-media-wrapper">
-            <div class="tactical-frame" id="hero-portrait-frame">
-              <!-- Corner Brackets -->
-              <span class="corner corner-tl">+</span>
-              <span class="corner corner-tr">+</span>
-              <span class="corner corner-bl">+</span>
-              <span class="corner corner-br">+</span>
-              
-              <div class="portrait-container">
-                <img src="assets/images/veenit-portrait.jpg" alt="Veenit Ramteke — Portrait" class="portrait-img" loading="eager">
-                <div class="portrait-overlay"></div>
-                <div class="portrait-hud">
-                  <div class="hud-item">
-                    <span class="hud-label">OPERATIVE</span>
-                    <span class="hud-value">VEENIT RAMTEKE</span>
+          <!-- Driver Monocoque Frame (Portrait) -->
+          <div class="hero-right">
+            <div class="monocoque-frame" id="hero-driver-monocoque">
+              <!-- Racing Brackets -->
+              <span class="f1-curb-corner top-left"></span>
+              <span class="f1-curb-corner top-right"></span>
+              <span class="f1-curb-corner bottom-left"></span>
+              <span class="f1-curb-corner bottom-right"></span>
+
+              <div class="driver-photo-wrap">
+                <img src="assets/images/veenit-portrait.jpg" alt="Veenit Ramteke — Driver Profile" class="driver-img">
+                <div class="driver-scanline"></div>
+                <div class="driver-hud-overlay">
+                  <div class="hud-left">
+                    <span class="hud-driver-name">VEENIT RAMTEKE</span>
+                    <span class="hud-team">IIM BANGALORE · GHRCEM</span>
                   </div>
-                  <div class="hud-item text-right">
-                    <span class="hud-label">ACADEMICS</span>
-                    <span class="hud-value">IIMB · GHRCEM</span>
+                  <div class="hud-right">
+                    <span class="hud-tyre">P-ZERO SOFT 🔴</span>
+                    <span class="hud-status">STATUS: PURPLE LAP</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Floating Badges -->
-              <div class="floating-tech-badge badge-top-left">
-                <i data-lucide="cpu" class="badge-icon"></i>
-                <span>NEURAL &amp; GRAPH ML</span>
-              </div>
-              <div class="floating-tech-badge badge-bottom-right">
-                <i data-lucide="shield-check" class="badge-icon"></i>
-                <span>SHA-256 AUDITABLE</span>
+              <!-- Katana Blade Hologram Badge -->
+              <div class="katana-floating-emblem">
+                <i data-lucide="sword" class="katana-icon"></i>
+                <span>KATANA CUT // ARMED</span>
               </div>
             </div>
           </div>
@@ -274,356 +281,352 @@
       </div>
     </section>
 
-    <!-- ── INFINITE BRUTALIST RUNNING TICKER ── -->
-    <div class="ticker-section" aria-hidden="true">
-      <div class="ticker-track">
-        <div class="ticker-content">
-          <span>AI &amp; SYSTEMS ARCHITECTURE</span>
-          <span class="ticker-dot">✦</span>
+    <!-- ── F1 TELEMETRY MARQUEE ── -->
+    <div class="f1-speed-ticker" aria-hidden="true">
+      <div class="ticker-flow">
+        <div class="ticker-batch">
+          <span>POLE POSITION TELEMETRY</span>
+          <span class="f1-check-dot">🏁</span>
           <span>DISASTER INTELLIGENCE PLATFORMS</span>
-          <span class="ticker-dot">✦</span>
-          <span>FINANCIAL FRAUD GRAPH ANALYTICS</span>
-          <span class="ticker-dot">✦</span>
-          <span>IIM BANGALORE BBA DBE</span>
-          <span class="ticker-dot">✦</span>
+          <span class="f1-check-dot">🏁</span>
+          <span>FINANCIAL FRAUD NETWORK DETECTION</span>
+          <span class="f1-check-dot">🏁</span>
+          <span>IIM BANGALORE DIGITAL BUSINESS</span>
+          <span class="f1-check-dot">🏁</span>
           <span>IIT GUWAHATI AVINYA 1ST PRIZE</span>
-          <span class="ticker-dot">✦</span>
+          <span class="f1-check-dot">🏁</span>
           <span>HBRP PEER-REVIEWED PUBLICATION</span>
-          <span class="ticker-dot">✦</span>
-          <span>POSTGIS &amp; FASTAPI</span>
-          <span class="ticker-dot">✦</span>
-          <span>ZERO-COMPROMISE PERFORMANCE</span>
-          <span class="ticker-dot">✦</span>
+          <span class="f1-check-dot">🏁</span>
+          <span>ZERO-COMPROMISE HIGH-THROUGHPUT CODE</span>
+          <span class="f1-check-dot">🏁</span>
         </div>
-        <div class="ticker-content" aria-hidden="true">
-          <span>AI &amp; SYSTEMS ARCHITECTURE</span>
-          <span class="ticker-dot">✦</span>
+        <div class="ticker-batch" aria-hidden="true">
+          <span>POLE POSITION TELEMETRY</span>
+          <span class="f1-check-dot">🏁</span>
           <span>DISASTER INTELLIGENCE PLATFORMS</span>
-          <span class="ticker-dot">✦</span>
-          <span>FINANCIAL FRAUD GRAPH ANALYTICS</span>
-          <span class="ticker-dot">✦</span>
-          <span>IIM BANGALORE BBA DBE</span>
-          <span class="ticker-dot">✦</span>
+          <span class="f1-check-dot">🏁</span>
+          <span>FINANCIAL FRAUD NETWORK DETECTION</span>
+          <span class="f1-check-dot">🏁</span>
+          <span>IIM BANGALORE DIGITAL BUSINESS</span>
+          <span class="f1-check-dot">🏁</span>
           <span>IIT GUWAHATI AVINYA 1ST PRIZE</span>
-          <span class="ticker-dot">✦</span>
+          <span class="f1-check-dot">🏁</span>
           <span>HBRP PEER-REVIEWED PUBLICATION</span>
-          <span class="ticker-dot">✦</span>
-          <span>POSTGIS &amp; FASTAPI</span>
-          <span class="ticker-dot">✦</span>
-          <span>ZERO-COMPROMISE PERFORMANCE</span>
-          <span class="ticker-dot">✦</span>
+          <span class="f1-check-dot">🏁</span>
+          <span>ZERO-COMPROMISE HIGH-THROUGHPUT CODE</span>
+          <span class="f1-check-dot">🏁</span>
         </div>
       </div>
     </div>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 02 // CHASSIS &amp; AERODYNAMICS ✦ TELEMETRY</span>
+    <!-- ── KATANA SLASH BARRIER: S01 -> S02 ── -->
+    <div class="katana-slash-gate" data-target="#projects">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Featured Projects">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 02 // PROJECTS TELEMETRY</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
-    <!-- ── 02. FEATURED PROJECTS SHOWCASE (DUAL VIEW) ── -->
-    <section id="projects" class="section-block">
+    <!-- ── 02. FEATURED PROJECTS TELEMETRY ── -->
+    <section id="projects" class="f1-section">
       <div class="container">
         
-        <!-- Section Header with View Mode Switch -->
-        <div class="section-header-flex">
+        <div class="f1-section-header">
           <div>
-            <div class="section-marker">
-              <span class="marker-index">[02 // WORKS]</span>
-              <span class="marker-spec">SELECTED PRODUCTION ARCHITECTURES</span>
+            <div class="f1-sector-marker">
+              <span class="sector-badge">SECTOR 02 // CHASSIS &amp; AERODYNAMICS</span>
+              <span class="sector-meta">PRODUCTION ARCHITECTURES</span>
             </div>
-            <h2 class="section-headline">FEATURED <span class="text-accent">PROJECTS</span></h2>
+            <h2 class="f1-headline">PRODUCTION <span class="text-f1-red">PROJECTS</span></h2>
           </div>
 
-          <!-- View Mode Toggle -->
-          <div class="view-toggle-wrapper">
-            <span class="view-label">VIEW:</span>
-            <div class="view-toggle">
-              <button id="view-grid-btn" class="view-btn active" title="Cinematic Grid View">
-                <i data-lucide="layout-grid"></i>
-                <span>Cards</span>
-              </button>
-              <button id="view-list-btn" class="view-btn" title="Interactive Index Table with Floating Cursor Preview">
-                <i data-lucide="list"></i>
-                <span>Index Table</span>
-              </button>
-            </div>
+          <!-- View Switcher -->
+          <div class="view-switch">
+            <button id="view-grid-btn" class="switch-btn active" title="Showcase Grid">
+              <i data-lucide="layout-grid"></i>
+              <span>Telemetry Cards</span>
+            </button>
+            <button id="view-list-btn" class="switch-btn" title="Interactive Paddock Index with Blade Hover">
+              <i data-lucide="list"></i>
+              <span>Paddock Index</span>
+            </button>
           </div>
         </div>
 
-        <!-- MODE 1: CINEMATIC CARDS GRID -->
-        <div id="projects-grid-view" class="projects-grid">
+        <!-- MODE 1: GRID -->
+        <div id="projects-grid-view" class="f1-cards-grid">
 
-          <!-- Project 01: DRISHTI -->
-          <article class="project-card" data-project="drishti">
-            <div class="project-media-frame">
-              <img src="assets/images/drishti-dashboard.svg" alt="DRISHTI Disaster Intelligence Dashboard" class="project-img" loading="lazy">
-              <div class="media-overlay"></div>
-              <div class="project-tags">
-                <span class="badge-tag">GEOSPATIAL INTELLIGENCE</span>
-                <span class="badge-tag">POSTGIS</span>
+          <!-- 01: DRISHTI -->
+          <article class="f1-card project-card" data-project="drishti">
+            <div class="card-media">
+              <img src="assets/images/drishti-dashboard.svg" alt="DRISHTI Telemetry Dashboard" class="card-img" loading="lazy">
+              <div class="card-media-overlay"></div>
+              <div class="card-badges">
+                <span class="badge-f1-red">GEOSPATIAL AI</span>
+                <span class="badge-carbon">POSTGIS</span>
               </div>
             </div>
-            <div class="project-details">
-              <div class="project-num">[01]</div>
-              <h3 class="project-title">DRISHTI</h3>
-              <p class="project-tagline">Supervised Disaster Response &amp; Tactical Geospatial Decision Workspace</p>
-              <p class="project-summary">
-                Deterministic recommendation engine evaluating disaster incident confidence, asset readiness, and road disruptions. Features offline command queuing and real-time geographic triage clustering.
+            <div class="card-content">
+              <div class="card-chassis-no">[CHASSIS 01 // DISASTER INTELLIGENCE]</div>
+              <h3 class="card-title">DRISHTI</h3>
+              <p class="card-tagline">Supervised Disaster Response &amp; Tactical Geospatial Decision Workspace</p>
+              <p class="card-body-text">
+                Engineered deterministic recommendation workflows evaluating disaster incident confidence, asset readiness, and road disruptions. Features offline command queuing and real-time geographic triage clustering.
               </p>
-              <div class="tech-chip-row">
-                <span class="chip">React 19</span>
-                <span class="chip">FastAPI</span>
-                <span class="chip">PostgreSQL / PostGIS</span>
-                <span class="chip">TypeScript</span>
+              <div class="f1-chip-row">
+                <span class="f1-chip">React 19</span>
+                <span class="f1-chip">FastAPI</span>
+                <span class="f1-chip">PostgreSQL / PostGIS</span>
+                <span class="f1-chip">TypeScript</span>
               </div>
-              <div class="project-footer-links">
-                <span class="project-status-dot"></span>
-                <span class="status-text">Production Grade</span>
+              <div class="card-status-bar">
+                <span class="f1-status-light green"></span>
+                <span>PRODUCTION GRADE ENGINE</span>
               </div>
             </div>
           </article>
 
-          <!-- Project 02: VASH -->
-          <article class="project-card" data-project="vash">
-            <div class="project-media-frame">
-              <img src="assets/images/vash-dashboard.svg" alt="VASH Fraud Detection Dashboard" class="project-img" loading="lazy">
-              <div class="media-overlay"></div>
-              <div class="project-tags">
-                <span class="badge-tag">ANOMALY DETECTION</span>
-                <span class="badge-tag">GRAPH ANALYTICS</span>
+          <!-- 02: VASH -->
+          <article class="f1-card project-card" data-project="vash">
+            <div class="card-media">
+              <img src="assets/images/vash-dashboard.svg" alt="VASH Fraud Detection Dashboard" class="card-img" loading="lazy">
+              <div class="card-media-overlay"></div>
+              <div class="card-badges">
+                <span class="badge-f1-red">ANOMALY ML</span>
+                <span class="badge-carbon">GRAPH ANALYTICS</span>
               </div>
             </div>
-            <div class="project-details">
-              <div class="project-num">[02]</div>
-              <h3 class="project-title">VASH</h3>
-              <p class="project-tagline">Financial Fraud Detection &amp; Threat Intelligence Platform</p>
-              <p class="project-summary">
+            <div class="card-content">
+              <div class="card-chassis-no">[CHASSIS 02 // THREAT DETECTION]</div>
+              <h3 class="card-title">VASH</h3>
+              <p class="card-tagline">Financial Fraud Detection &amp; Threat Intelligence Platform</p>
+              <p class="card-body-text">
                 High-throughput transaction anomaly scoring with Isolation Forests and SHAP explainability. Features bipartite graph analysis for cyclic money-mule rings and tamper-evident SHA-256 hash chaining.
               </p>
-              <div class="tech-chip-row">
-                <span class="chip">Python</span>
-                <span class="chip">Scikit-Learn</span>
-                <span class="chip">NetworkX</span>
-                <span class="chip">SHA-256 Chaining</span>
+              <div class="f1-chip-row">
+                <span class="f1-chip">Python</span>
+                <span class="f1-chip">Scikit-Learn</span>
+                <span class="f1-chip">NetworkX</span>
+                <span class="f1-chip">SHA-256 Chaining</span>
               </div>
-              <div class="project-footer-links">
-                <span class="project-status-dot"></span>
-                <span class="status-text">Financial ML</span>
+              <div class="card-status-bar">
+                <span class="f1-status-light red"></span>
+                <span>FINANCIAL THREAT TELEMETRY</span>
               </div>
             </div>
           </article>
 
-          <!-- Project 03: Prashikshan -->
-          <article class="project-card" data-project="prashikshan">
-            <div class="project-media-frame">
-              <img src="assets/images/prashikshan-dashboard.svg" alt="Prashikshan Career Readiness Dashboard" class="project-img" loading="lazy">
-              <div class="media-overlay"></div>
-              <div class="project-tags">
-                <span class="badge-tag">CAREER INTELLIGENCE</span>
-                <span class="badge-tag">PEER-REVIEWED</span>
+          <!-- 03: PRASHIKSHAN -->
+          <article class="f1-card project-card" data-project="prashikshan">
+            <div class="card-media">
+              <img src="assets/images/prashikshan-dashboard.svg" alt="Prashikshan Career Readiness Dashboard" class="card-img" loading="lazy">
+              <div class="card-media-overlay"></div>
+              <div class="card-badges">
+                <span class="badge-f1-red">CAREER INTELLIGENCE</span>
+                <span class="badge-carbon">HBRP PUBLISHED</span>
               </div>
             </div>
-            <div class="project-details">
-              <div class="project-num">[03]</div>
-              <h3 class="project-title">PRASHIKSHAN</h3>
-              <p class="project-tagline">AI-Driven Academia–Industry Interface &amp; Competency Validation</p>
-              <p class="project-summary">
-                Peer-reviewed platform connecting university curriculum matrices directly with dynamic enterprise hiring rubrics. Bridges skill gaps with curated pathways and cryptographically validated milestones.
+            <div class="card-content">
+              <div class="card-chassis-no">[CHASSIS 03 // SCIENTIFIC PLATFORM]</div>
+              <h3 class="card-title">PRASHIKSHAN</h3>
+              <p class="card-tagline">AI-Driven Academia–Industry Interface &amp; Competency Validation</p>
+              <p class="card-body-text">
+                Peer-reviewed platform connecting university curriculum matrices directly with enterprise hiring rubrics. Bridges skill gaps with curated pathways and cryptographically validated milestones.
               </p>
-              <div class="tech-chip-row">
-                <span class="chip">Node.js</span>
-                <span class="chip">Express</span>
-                <span class="chip">SQLite</span>
-                <span class="chip">JWT / RBAC</span>
+              <div class="f1-chip-row">
+                <span class="f1-chip">Node.js</span>
+                <span class="f1-chip">Express</span>
+                <span class="f1-chip">SQLite</span>
+                <span class="f1-chip">JWT / RBAC</span>
               </div>
-              <div class="project-footer-links">
-                <span class="project-status-dot"></span>
-                <span class="status-text">Published Paper</span>
+              <div class="card-status-bar">
+                <span class="f1-status-light gold"></span>
+                <span>PEER-REVIEWED JOURNAL DOI</span>
               </div>
             </div>
           </article>
 
-          <!-- Project 04: Electronova Robot -->
-          <article class="project-card" data-project="electronova">
-            <div class="project-media-frame">
-              <img src="assets/images/electronova-dashboard.svg" alt="Electronova Autonomous Bot Telemetry" class="project-img" loading="lazy">
-              <div class="media-overlay"></div>
-              <div class="project-tags">
-                <span class="badge-tag">AUTONOMOUS ROBOTICS</span>
-                <span class="badge-tag">PID CONTROL</span>
+          <!-- 04: ELECTRONOVA ROBOT -->
+          <article class="f1-card project-card" data-project="electronova">
+            <div class="card-media">
+              <img src="assets/images/electronova-dashboard.svg" alt="Electronova Bot Telemetry" class="card-img" loading="lazy">
+              <div class="card-media-overlay"></div>
+              <div class="card-badges">
+                <span class="badge-f1-red">EMBEDDED ROBOTICS</span>
+                <span class="badge-carbon">1ST PLACE</span>
               </div>
             </div>
-            <div class="project-details">
-              <div class="project-num">[04]</div>
-              <h3 class="project-title">ELECTRONOVA ROBOT</h3>
-              <p class="project-tagline">Autonomous Sensor-Fused Obstacle Avoidance Platform</p>
-              <p class="project-summary">
+            <div class="card-content">
+              <div class="card-chassis-no">[CHASSIS 04 // AUTONOMOUS SPRINT]</div>
+              <h3 class="card-title">ELECTRONOVA ROBOT</h3>
+              <p class="card-tagline">Autonomous Sensor-Fused Obstacle Avoidance Platform</p>
+              <p class="card-body-text">
                 Award-winning 24-hour sprint hardware robot. Features ultrasonic/optical sensor telemetry, real-time PID motor feedback regulation, and deterministic obstacle negotiation under dead-reckoning constraints.
               </p>
-              <div class="tech-chip-row">
-                <span class="chip">Embedded C++</span>
-                <span class="chip">PID Algorithms</span>
-                <span class="chip">Sensor Fusion</span>
-                <span class="chip">1st Position</span>
+              <div class="f1-chip-row">
+                <span class="f1-chip">Embedded C++</span>
+                <span class="f1-chip">PID Control</span>
+                <span class="f1-chip">Sensor Fusion</span>
+                <span class="f1-chip">1st Position</span>
               </div>
-              <div class="project-footer-links">
-                <span class="project-status-dot"></span>
-                <span class="status-text">Hackathon Winner</span>
+              <div class="card-status-bar">
+                <span class="f1-status-light green"></span>
+                <span>HACKATHON WINNER TROPHY</span>
               </div>
             </div>
           </article>
 
         </div>
 
-        <!-- MODE 2: INTERACTIVE INDEX TABLE (STRIKE.UNO SIGNATURE LIST HOVER) -->
-        <div id="projects-list-view" class="projects-list" style="display:none;">
-          <div class="table-header">
-            <span class="col-idx">ID</span>
-            <span class="col-name">PROJECT</span>
-            <span class="col-domain">DOMAIN &amp; CAPABILITY</span>
-            <span class="col-stack">PRIMARY ARCHITECTURE</span>
-            <span class="col-year">YEAR</span>
+        <!-- MODE 2: INTERACTIVE PADDOCK INDEX -->
+        <div id="projects-list-view" class="f1-index-table" style="display:none;">
+          <div class="f1-table-header">
+            <span>GRID</span>
+            <span>CHASSIS</span>
+            <span>CAPABILITY DOMAIN</span>
+            <span>POWERTRAIN // STACK</span>
+            <span>YEAR</span>
           </div>
 
-          <!-- Row 1 -->
-          <div class="table-row project-hover-row" 
+          <div class="f1-table-row project-hover-row" 
                data-preview-img="assets/images/drishti-dashboard.svg" 
                data-preview-title="DRISHTI" 
-               data-preview-tag="GEOSPATIAL INTELLIGENCE">
-            <span class="col-idx">[01]</span>
-            <span class="col-name">
+               data-preview-tag="GEOSPATIAL AI · SECTOR 02">
+            <span class="col-grid">01</span>
+            <span class="col-chassis">
               <strong>DRISHTI</strong>
-              <small class="row-sub">Disaster Response Decision Platform</small>
+              <small>Disaster Response Intelligence</small>
             </span>
-            <span class="col-domain">Geospatial Intelligence · Offline Command Queue</span>
-            <span class="col-stack">FastAPI, PostGIS, React 19, TypeScript</span>
-            <span class="col-year">2026</span>
+            <span class="col-domain">Geospatial Intelligence · PostGIS Spatial Clustered</span>
+            <span class="col-stack">FastAPI, PostgreSQL, React 19, TypeScript</span>
+            <span class="col-year text-f1-red">2026</span>
           </div>
 
-          <!-- Row 2 -->
-          <div class="table-row project-hover-row" 
+          <div class="f1-table-row project-hover-row" 
                data-preview-img="assets/images/vash-dashboard.svg" 
                data-preview-title="VASH" 
-               data-preview-tag="FINANCIAL ML &amp; GRAPH THREATS">
-            <span class="col-idx">[02]</span>
-            <span class="col-name">
+               data-preview-tag="ANOMALY ML · SECTOR 02">
+            <span class="col-grid">02</span>
+            <span class="col-chassis">
               <strong>VASH</strong>
-              <small class="row-sub">Financial Fraud Detection Engine</small>
+              <small>Financial Fraud Detection Engine</small>
             </span>
-            <span class="col-domain">Isolation Forest · SHAP Attributions · Graph Mule Detection</span>
+            <span class="col-domain">Isolation Forest · SHAP Explainability · Mule Ring Graph</span>
             <span class="col-stack">Python, Scikit-Learn, NetworkX, SHA-256</span>
-            <span class="col-year">2026</span>
+            <span class="col-year text-f1-red">2026</span>
           </div>
 
-          <!-- Row 3 -->
-          <div class="table-row project-hover-row" 
+          <div class="f1-table-row project-hover-row" 
                data-preview-img="assets/images/prashikshan-dashboard.svg" 
                data-preview-title="PRASHIKSHAN" 
-               data-preview-tag="CAREER EDTECH · PUBLISHED PAPER">
-            <span class="col-idx">[03]</span>
-            <span class="col-name">
+               data-preview-tag="PEER-REVIEWED · SECTOR 02">
+            <span class="col-grid">03</span>
+            <span class="col-chassis">
               <strong>PRASHIKSHAN</strong>
-              <small class="row-sub">Academia–Industry Interface</small>
+              <small>Academia–Industry Interface</small>
             </span>
             <span class="col-domain">Skill-Gap Analytics · Dynamic Competency Matrices</span>
             <span class="col-stack">Node.js, Express, SQLite, REST API, RBAC</span>
-            <span class="col-year">2026</span>
+            <span class="col-year text-f1-red">2026</span>
           </div>
 
-          <!-- Row 4 -->
-          <div class="table-row project-hover-row" 
+          <div class="f1-table-row project-hover-row" 
                data-preview-img="assets/images/electronova-dashboard.svg" 
                data-preview-title="ELECTRONOVA BOT" 
-               data-preview-tag="EMBEDDED ROBOTICS · 1ST PRIZE">
-            <span class="col-idx">[04]</span>
-            <span class="col-name">
+               data-preview-tag="1ST PLACE ROBOTICS · SECTOR 02">
+            <span class="col-grid">04</span>
+            <span class="col-chassis">
               <strong>ELECTRONOVA BOT</strong>
-              <small class="row-sub">Autonomous Obstacle Avoidance Bot</small>
+              <small>Autonomous Obstacle Avoidance Bot</small>
             </span>
             <span class="col-domain">Sensor Fusion · Closed-Loop PID Motor Telemetry</span>
             <span class="col-stack">Embedded C++, Microcontroller, Optical Encoders</span>
-            <span class="col-year">2024</span>
+            <span class="col-year text-f1-red">2024</span>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 03 // SCIENTIFIC PODIUM ✦ PEER-REVIEWED</span>
+    <!-- ── KATANA SLASH BARRIER: S02 -> S03 ── -->
+    <div class="katana-slash-gate" data-target="#publication">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Research Publication">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 03 // SCIENTIFIC PODIUM &amp; PUBLICATION</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
     <!-- ── 03. PEER-REVIEWED RESEARCH PUBLICATION ── -->
-    <section id="publication" class="section-block bg-subtle-void">
+    <section id="publication" class="f1-section bg-carbon-elevated">
       <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 03 // ACADEMIC RESEARCH]</span>
-          <span class="marker-spec">PEER-REVIEWED SCIENTIFIC OUTPUT</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 03 // SCIENTIFIC PODIUM</span>
+          <span class="sector-meta">PEER-REVIEWED SCIENTIFIC OUTPUT</span>
         </div>
 
-        <div class="publication-card">
-          <div class="pub-badge-strip">
-            <span class="pub-badge-certified">HBRP CERTIFIED PUBLICATION</span>
-            <span class="pub-badge-meta">RECENT TRENDS IN DATA SCIENCE TECHNOLOGY · VOL. 2, ISSUE 2</span>
-            <span class="pub-badge-issn">e-ISSN: 3107-7498</span>
+        <div class="f1-card publication-monocoque">
+          <div class="pub-f1-header">
+            <span class="badge-f1-red">HBRP CERTIFIED PUBLICATION</span>
+            <span class="badge-carbon">RECENT TRENDS IN DATA SCIENCE TECHNOLOGY · VOL. 2, ISSUE 2</span>
+            <span class="badge-carbon">e-ISSN: 3107-7498</span>
           </div>
 
-          <h2 class="pub-title">
+          <h2 class="pub-headline">
             <em>Prashikshan:</em> A Centralized Academia–Industry Interface for Internship and Skill Validation
           </h2>
 
-          <div class="pub-authors">
-            <strong>Authors:</strong> Dr. Devidas Thosar, Trisha Gujjula, Tanishka Devgirkar, <span class="author-highlight">Veenit Ramteke</span>, Lakshmi Sharma, Girish Patil, and Anjali Gaur
+          <div class="pub-authors-box">
+            <strong>Authors:</strong> Dr. Devidas Thosar, Trisha Gujjula, Tanishka Devgirkar, <span class="author-spotlight">Veenit Ramteke</span>, Lakshmi Sharma, Girish Patil, and Anjali Gaur
           </div>
-          <div class="pub-dept">
+          <div class="pub-dept-box">
             Department of AI &amp; Data Science / AIML · G.H. Raisoni College of Engineering and Management, Wagholi, Pune
           </div>
 
-          <p class="pub-abstract">
+          <p class="pub-abstract-text">
             This research paper addresses the structural disconnect between higher education curricula and industry requirements through a centralized skill-gap framework. The system introduces objective validation mechanisms for student competencies, auditable internship milestones, and transparent institutional feedback loops.
           </p>
 
-          <div class="pub-metadata-grid">
-            <div class="meta-box">
-              <span class="meta-label">JOURNAL</span>
-              <span class="meta-val">Recent Trends in Data Science Technology</span>
+          <div class="f1-telemetry-grid">
+            <div class="telemetry-box">
+              <span class="t-label">JOURNAL</span>
+              <span class="t-val">Recent Trends in Data Science Technology</span>
             </div>
-            <div class="meta-box">
-              <span class="meta-label">VOLUME &amp; ISSUE</span>
-              <span class="meta-val">Vol. 02, Issue 02 (May–Aug 2026), pp. 1–7</span>
+            <div class="telemetry-box">
+              <span class="t-label">VOLUME &amp; ISSUE</span>
+              <span class="t-val">Vol. 02, Issue 02 (May–Aug 2026), pp. 1–7</span>
             </div>
-            <div class="meta-box">
-              <span class="meta-label">PUBLISHER</span>
-              <span class="meta-val">HBRP Publication Pvt. Ltd. (Certified: 13/04/2026)</span>
+            <div class="telemetry-box">
+              <span class="t-label">CERTIFICATION</span>
+              <span class="t-val">HBRP Publication Pvt. Ltd. (Certified: 13/04/2026)</span>
             </div>
-            <div class="meta-box">
-              <span class="meta-label">PERMANENT DOI</span>
-              <span class="meta-val font-mono">10.5281/zenodo.19552932</span>
+            <div class="telemetry-box">
+              <span class="t-label">PERMANENT DOI</span>
+              <span class="t-val font-mono text-f1-red">10.5281/zenodo.19552932</span>
             </div>
           </div>
 
-          <!-- Actions Strip -->
-          <div class="pub-actions">
-            <a href="https://doi.org/10.5281/zenodo.19552932" target="_blank" rel="noopener noreferrer" class="btn btn-primary magnetic-item">
-              <span>Access on Zenodo</span>
+          <!-- Actions -->
+          <div class="pub-f1-actions">
+            <a href="https://doi.org/10.5281/zenodo.19552932" target="_blank" rel="noopener noreferrer" class="btn btn-f1-red magnetic-item">
               <i data-lucide="external-link" class="btn-icon"></i>
+              <span>Access Zenodo DOI</span>
             </a>
-            <button id="copy-bibtex-btn" class="btn btn-secondary magnetic-item">
+            <button id="copy-bibtex-btn" class="btn btn-carbon magnetic-item">
               <i data-lucide="quote" class="btn-icon"></i>
               <span>Copy BibTeX Citation</span>
             </button>
-            <a href="https://github.com/veenit-cell/publication" target="_blank" rel="noopener noreferrer" class="btn btn-tertiary magnetic-item">
+            <a href="https://github.com/veenit-cell/publication" target="_blank" rel="noopener noreferrer" class="btn btn-ghost magnetic-item">
               <i data-lucide="folder-git-2" class="btn-icon"></i>
               <span>Paper &amp; Certificate Repo</span>
             </a>
           </div>
 
-          <!-- Hidden BibTeX Block -->
-          <div id="bibtex-container" class="bibtex-container" style="display:none;">
-            <pre class="bibtex-code"><code>@article{thosar2026prashikshan,
+          <!-- BibTeX Drawer -->
+          <div id="bibtex-container" class="bibtex-drawer" style="display:none;">
+            <pre class="bibtex-pre"><code>@article{thosar2026prashikshan,
   title     = {Prashikshan: A Centralized Academia--Industry Interface for Internship and Skill Validation},
   author    = {Thosar, Devidas and Gujjula, Trisha and Devgirkar, Tanishka and Ramteke, Veenit and Sharma, Lakshmi and Patil, Girish and Gaur, Anjali},
   journal   = {Recent Trends in Data Science Technology},
@@ -642,51 +645,55 @@
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 04 // GRAND PRIX TROPHIES ✦ 1ST PLACE</span>
+    <!-- ── KATANA SLASH BARRIER: S03 -> S04 ── -->
+    <div class="katana-slash-gate" data-target="#honors">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Trophies">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 04 // GRAND PRIX TROPHIES &amp; PODIUMS</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
-    <!-- ── 04. HONORS & HACKATHON ACHIEVEMENTS ── -->
-    <section id="honors" class="section-block">
+    <!-- ── 04. GRAND PRIX TROPHIES & HONORS ── -->
+    <section id="honors" class="f1-section">
       <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 04 // DISTINCTIONS]</span>
-          <span class="marker-spec">COMPETITIVE SPRINT HONORS</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 04 // PODIUM HONORS</span>
+          <span class="sector-meta">FLAGSHIP COMPETITIVE VICTORIES</span>
         </div>
 
-        <h2 class="section-headline">AWARDS &amp; <span class="text-accent">HONORS</span></h2>
+        <h2 class="f1-headline">GRAND PRIX <span class="text-f1-red">TROPHIES</span></h2>
 
-        <div class="awards-grid">
+        <div class="f1-trophy-grid">
           
-          <!-- Award 1: IIT Guwahati -->
-          <div class="award-card">
-            <div class="award-image-frame">
-              <img src="assets/images/avinya-iit-guwahati.jpeg" alt="AVINYA IIT Guwahati Winner Prize" class="award-img" loading="lazy">
-              <div class="award-overlay"></div>
-              <span class="award-rank-badge">1ST PRIZE WINNER</span>
+          <!-- 01: IIT Guwahati -->
+          <div class="f1-card trophy-card">
+            <div class="trophy-media">
+              <img src="assets/images/avinya-iit-guwahati.jpeg" alt="AVINYA IIT Guwahati Winner" class="trophy-img" loading="lazy">
+              <div class="trophy-overlay"></div>
+              <span class="badge-p1">P1 WINNER // 1ST PLACE</span>
             </div>
-            <div class="award-body">
-              <div class="award-year">[2026] · IIT GUWAHATI</div>
-              <h3 class="award-title">AVINYA National Technical Hackathon</h3>
-              <p class="award-desc">
+            <div class="trophy-body">
+              <div class="trophy-year text-f1-red">[2026] · IIT GUWAHATI</div>
+              <h3 class="trophy-title">AVINYA National Technical Hackathon</h3>
+              <p class="trophy-desc">
                 Secured 1st Place in IIT Guwahati’s flagship national technical sprint, delivering an end-to-end intelligent data-driven solution evaluated under stringent scalability, real-world utility, and code craft standards.
               </p>
             </div>
           </div>
 
-          <!-- Award 2: Electronova Robotics -->
-          <div class="award-card">
-            <div class="award-image-frame">
-              <img src="assets/images/electronova-robotics-winner.jpeg" alt="Electronova Robotics Winner Trophy" class="award-img" loading="lazy">
-              <div class="award-overlay"></div>
-              <span class="award-rank-badge">1ST POSITION</span>
+          <!-- 02: Electronova Robotics -->
+          <div class="f1-card trophy-card">
+            <div class="trophy-media">
+              <img src="assets/images/electronova-robotics-winner.jpeg" alt="Electronova Robotics Winner" class="trophy-img" loading="lazy">
+              <div class="trophy-overlay"></div>
+              <span class="badge-p1">P1 WINNER // DATA INNOVATION</span>
             </div>
-            <div class="award-body">
-              <div class="award-year">[2024] · ROBOTICS SPRINT</div>
-              <h3 class="award-title">Electronova Robotics — Data-Driven Innovation</h3>
-              <p class="award-desc">
+            <div class="trophy-body">
+              <div class="trophy-year text-f1-red">[2024] · 24-HOUR SPRINT</div>
+              <h3 class="trophy-title">Electronova Robotics Hackathon</h3>
+              <p class="trophy-desc">
                 Awarded First Position in the Data-Driven Innovation track for rapid-prototyping an autonomous, sensor-fused obstacle avoidance mobile robot featuring tuned PID motor regulation over a 24-hour sprint.
               </p>
             </div>
@@ -697,47 +704,51 @@
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 05 // PIT STRATEGY ✦ APPLIED GOVERNANCE</span>
+    <!-- ── KATANA SLASH BARRIER: S04 -> S05 ── -->
+    <div class="katana-slash-gate" data-target="#experience">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Experience">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 05 // PIT STRATEGY &amp; EXPERIENCE</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
     <!-- ── 05. EXPERIENCE & APPLIED GOVERNANCE ── -->
-    <section id="experience" class="section-block bg-subtle-void">
+    <section id="experience" class="f1-section bg-carbon-elevated">
       <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 05 // CAREER &amp; INTERNSHIP]</span>
-          <span class="marker-spec">APPLIED STRATEGY &amp; RESEARCH</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 05 // PIT STRATEGY &amp; GOVERNANCE</span>
+          <span class="sector-meta">APPLIED POLICY &amp; INTELLIGENCE</span>
         </div>
 
-        <h2 class="section-headline">PROFESSIONAL <span class="text-accent">EXPERIENCE</span></h2>
+        <h2 class="f1-headline">PROFESSIONAL <span class="text-f1-red">EXPERIENCE</span></h2>
 
-        <div class="experience-card">
+        <div class="f1-card exp-card">
           <div class="exp-header">
             <div>
-              <span class="exp-role">Political Consulting Intern / ICPC Trainee</span>
-              <h3 class="exp-org">Policy, Politics &amp; Governance Foundation (PPGF)</h3>
+              <span class="exp-stint text-f1-red">Political Consulting Intern / ICPC Trainee</span>
+              <h3 class="exp-team">Policy, Politics &amp; Governance Foundation (PPGF)</h3>
             </div>
-            <div class="exp-duration">
-              <span class="badge-timeline">OCT 2026 – PRESENT</span>
-              <span class="badge-loc">INDIA</span>
+            <div class="exp-timing">
+              <span class="badge-carbon">OCT 2026 – PRESENT</span>
+              <span class="badge-carbon">INDIA</span>
             </div>
           </div>
 
-          <div class="exp-pillars">
-            <div class="pillar-box">
-              <i data-lucide="database" class="pillar-icon"></i>
+          <div class="exp-telemetry-pillars">
+            <div class="pillar-card">
+              <i data-lucide="database" class="pillar-icon text-f1-red"></i>
               <h4>Data Science &amp; Economics in Policy</h4>
               <p>Applied quantitative statistics, demographic modeling, and econometrics to analyze grassroots governance dynamics and public policy feedback loops.</p>
             </div>
-            <div class="pillar-box">
-              <i data-lucide="brain-circuit" class="pillar-icon"></i>
+            <div class="pillar-card">
+              <i data-lucide="cpu" class="pillar-icon text-f1-red"></i>
               <h4>AI Research Tools &amp; Intelligence</h4>
               <p>Leveraged advanced AI workflows, automated textual sentiment ingestion, and analytical pipelines for rapid political intelligence distillation.</p>
             </div>
-            <div class="pillar-box">
-              <i data-lucide="compass" class="pillar-icon"></i>
+            <div class="pillar-card">
+              <i data-lucide="crosshair" class="pillar-icon text-f1-red"></i>
               <h4>Strategic Communications</h4>
               <p>Trained in election campaign strategy, public perception metrics, and stakeholder alignment methodologies through the flagship ICPC curriculum.</p>
             </div>
@@ -747,42 +758,46 @@
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 06 // DRIVER ACADEMY ✦ IIMB &amp; GHRCEM</span>
+    <!-- ── KATANA SLASH BARRIER: S05 -> S06 ── -->
+    <div class="katana-slash-gate" data-target="#education">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Education">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 06 // DRIVER ACADEMY &amp; ACADEMICS</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
     <!-- ── 06. ACADEMIC PEDIGREE ── -->
-    <section id="education" class="section-block">
+    <section id="education" class="f1-section">
       <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 06 // ACADEMICS]</span>
-          <span class="marker-spec">DUAL-TRACK EDUCATION</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 06 // DRIVER ACADEMY</span>
+          <span class="sector-meta">DUAL-TRACK ACADEMIC FOUNDATIONS</span>
         </div>
 
-        <h2 class="section-headline">ACADEMIC <span class="text-accent">FOUNDATIONS</span></h2>
+        <h2 class="f1-headline">ACADEMIC <span class="text-f1-red">FOUNDATIONS</span></h2>
 
-        <div class="education-grid">
+        <div class="f1-academy-grid">
           
           <!-- IIM Bangalore -->
-          <div class="edu-card">
-            <div class="edu-tag">MANAGEMENT &amp; DIGITAL STRATEGY</div>
-            <h3 class="edu-inst">Indian Institute of Management Bangalore (IIMB)</h3>
-            <div class="edu-degree">Bachelor of Business Administration (BBA) in Digital Business &amp; Entrepreneurship</div>
-            <div class="edu-period">2026 – 2029 · Bengaluru, India</div>
-            <p class="edu-details">
+          <div class="f1-card academy-card">
+            <div class="academy-tag text-f1-red">EXECUTIVE MANAGEMENT &amp; VENTURE STRATEGY</div>
+            <h3 class="academy-inst">Indian Institute of Management Bangalore (IIMB)</h3>
+            <div class="academy-degree">Bachelor of Business Administration (BBA) in Digital Business &amp; Entrepreneurship</div>
+            <div class="academy-period">2026 – 2029 · Bengaluru, India</div>
+            <p class="academy-desc">
               Focusing on digital economics, venture scaling, technological transformation, data-informed strategy, and modern product management frameworks.
             </p>
           </div>
 
           <!-- GHRCEM Pune -->
-          <div class="edu-card">
-            <div class="edu-tag">ENGINEERING &amp; COMPUTER SCIENCE</div>
-            <h3 class="edu-inst">G.H. Raisoni College of Engineering and Management</h3>
-            <div class="edu-degree">Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</div>
-            <div class="edu-period">2024 – 2028 · Pune, India · <strong>CGPA: 8.5 / 10.0</strong></div>
-            <p class="edu-details">
+          <div class="f1-card academy-card">
+            <div class="academy-tag text-f1-red">ENGINEERING &amp; COMPUTATION</div>
+            <h3 class="academy-inst">G.H. Raisoni College of Engineering and Management</h3>
+            <div class="academy-degree">Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</div>
+            <div class="academy-period">2024 – 2028 · Pune, India · <strong>CGPA: 8.5 / 10.0</strong></div>
+            <p class="academy-desc">
               Deep focus on data structures, algorithmic complexity, neural networks, distributed systems, spatial computation, and systems design.
             </p>
           </div>
@@ -792,327 +807,337 @@
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 07 // POWERTRAIN MATRIX ✦ TECHNICAL ARSENAL</span>
+    <!-- ── KATANA SLASH BARRIER: S06 -> S07 ── -->
+    <div class="katana-slash-gate" data-target="#about">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Arsenal">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 07 // POWERTRAIN ARSENAL</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
-    <!-- ── 07. TECHNICAL SKILLS ARSENAL ── -->
-    <section id="about" class="section-block bg-subtle-void">
+    <!-- ── 07. TECHNICAL ARSENAL ── -->
+    <section id="about" class="f1-section bg-carbon-elevated">
       <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 07 // ARSENAL]</span>
-          <span class="marker-spec">ENGINEERING CAPABILITIES &amp; STACK</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 07 // POWERTRAIN SPECS</span>
+          <span class="sector-meta">TECHNICAL MATRIX &amp; CAPABILITIES</span>
         </div>
 
-        <h2 class="section-headline">TECHNICAL <span class="text-accent">MATRIX</span></h2>
+        <h2 class="f1-headline">TECHNICAL <span class="text-f1-red">ARSENAL</span></h2>
 
-        <!-- Skills Filter Tabs -->
-        <div class="skills-tabs">
-          <button class="skill-tab active" data-filter="all">All Stack</button>
-          <button class="skill-tab" data-filter="languages">Languages</button>
-          <button class="skill-tab" data-filter="ai-ml">AI &amp; Machine Learning</button>
-          <button class="skill-tab" data-filter="spatial-data">Databases &amp; Spatial</button>
-          <button class="skill-tab" data-filter="systems">Systems &amp; DevOps</button>
+        <!-- Filter tabs -->
+        <div class="f1-tabs">
+          <button class="f1-tab active" data-filter="all">All Powertrain</button>
+          <button class="f1-tab" data-filter="languages">Languages</button>
+          <button class="f1-tab" data-filter="ai-ml">AI &amp; Neural</button>
+          <button class="f1-tab" data-filter="spatial-data">Databases &amp; Spatial</button>
+          <button class="f1-tab" data-filter="systems">Systems &amp; Security</button>
         </div>
 
-        <div class="skills-grid">
+        <div class="f1-chips-grid">
           <!-- Languages -->
-          <div class="skill-chip" data-category="languages">
+          <div class="powertrain-chip" data-category="languages">
             <span class="chip-name">Python</span>
-            <span class="chip-cat">LANG</span>
+            <span class="chip-tier text-f1-red">LANG</span>
           </div>
-          <div class="skill-chip" data-category="languages">
+          <div class="powertrain-chip" data-category="languages">
             <span class="chip-name">TypeScript</span>
-            <span class="chip-cat">LANG</span>
+            <span class="chip-tier text-f1-red">LANG</span>
           </div>
-          <div class="skill-chip" data-category="languages">
+          <div class="powertrain-chip" data-category="languages">
             <span class="chip-name">JavaScript (ES6+)</span>
-            <span class="chip-cat">LANG</span>
+            <span class="chip-tier text-f1-red">LANG</span>
           </div>
-          <div class="skill-chip" data-category="languages">
+          <div class="powertrain-chip" data-category="languages">
             <span class="chip-name">C++</span>
-            <span class="chip-cat">LANG</span>
+            <span class="chip-tier text-f1-red">LANG</span>
           </div>
-          <div class="skill-chip" data-category="languages">
+          <div class="powertrain-chip" data-category="languages">
             <span class="chip-name">Java</span>
-            <span class="chip-cat">LANG</span>
+            <span class="chip-tier text-f1-red">LANG</span>
           </div>
-          <div class="skill-chip" data-category="languages">
+          <div class="powertrain-chip" data-category="languages">
             <span class="chip-name">SQL</span>
-            <span class="chip-cat">LANG</span>
+            <span class="chip-tier text-f1-red">LANG</span>
           </div>
 
           <!-- AI & ML -->
-          <div class="skill-chip" data-category="ai-ml">
+          <div class="powertrain-chip" data-category="ai-ml">
             <span class="chip-name">PyTorch</span>
-            <span class="chip-cat">AI/ML</span>
+            <span class="chip-tier text-f1-red">AI/ML</span>
           </div>
-          <div class="skill-chip" data-category="ai-ml">
+          <div class="powertrain-chip" data-category="ai-ml">
             <span class="chip-name">Scikit-Learn</span>
-            <span class="chip-cat">AI/ML</span>
+            <span class="chip-tier text-f1-red">AI/ML</span>
           </div>
-          <div class="skill-chip" data-category="ai-ml">
+          <div class="powertrain-chip" data-category="ai-ml">
             <span class="chip-name">Isolation Forest Anomaly</span>
-            <span class="chip-cat">AI/ML</span>
+            <span class="chip-tier text-f1-red">AI/ML</span>
           </div>
-          <div class="skill-chip" data-category="ai-ml">
+          <div class="powertrain-chip" data-category="ai-ml">
             <span class="chip-name">SHAP Explainability</span>
-            <span class="chip-cat">AI/ML</span>
+            <span class="chip-tier text-f1-red">AI/ML</span>
           </div>
-          <div class="skill-chip" data-category="ai-ml">
+          <div class="powertrain-chip" data-category="ai-ml">
             <span class="chip-name">NetworkX Graph Analytics</span>
-            <span class="chip-cat">AI/ML</span>
+            <span class="chip-tier text-f1-red">AI/ML</span>
           </div>
-          <div class="skill-chip" data-category="ai-ml">
+          <div class="powertrain-chip" data-category="ai-ml">
             <span class="chip-name">Pandas / NumPy</span>
-            <span class="chip-cat">AI/ML</span>
+            <span class="chip-tier text-f1-red">AI/ML</span>
           </div>
 
           <!-- Databases & Spatial -->
-          <div class="skill-chip" data-category="spatial-data">
+          <div class="powertrain-chip" data-category="spatial-data">
             <span class="chip-name">PostgreSQL</span>
-            <span class="chip-cat">DB</span>
+            <span class="chip-tier text-f1-red">DB</span>
           </div>
-          <div class="skill-chip" data-category="spatial-data">
+          <div class="powertrain-chip" data-category="spatial-data">
             <span class="chip-name">PostGIS Spatial Clustered</span>
-            <span class="chip-cat">GIS</span>
+            <span class="chip-tier text-f1-red">GIS</span>
           </div>
-          <div class="skill-chip" data-category="spatial-data">
+          <div class="powertrain-chip" data-category="spatial-data">
             <span class="chip-name">SQLite</span>
-            <span class="chip-cat">DB</span>
+            <span class="chip-tier text-f1-red">DB</span>
           </div>
-          <div class="skill-chip" data-category="spatial-data">
+          <div class="powertrain-chip" data-category="spatial-data">
             <span class="chip-name">MySQL</span>
-            <span class="chip-cat">DB</span>
+            <span class="chip-tier text-f1-red">DB</span>
           </div>
 
-          <!-- Systems & DevOps -->
-          <div class="skill-chip" data-category="systems">
+          <!-- Systems & Security -->
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">FastAPI</span>
-            <span class="chip-cat">SYS</span>
+            <span class="chip-tier text-f1-red">SYS</span>
           </div>
-          <div class="skill-chip" data-category="systems">
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">React 19</span>
-            <span class="chip-cat">SYS</span>
+            <span class="chip-tier text-f1-red">SYS</span>
           </div>
-          <div class="skill-chip" data-category="systems">
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">Node.js / Express</span>
-            <span class="chip-cat">SYS</span>
+            <span class="chip-tier text-f1-red">SYS</span>
           </div>
-          <div class="skill-chip" data-category="systems">
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">SHA-256 Ledger Chaining</span>
-            <span class="chip-cat">SEC</span>
+            <span class="chip-tier text-f1-red">SEC</span>
           </div>
-          <div class="skill-chip" data-category="systems">
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">Docker</span>
-            <span class="chip-cat">OPS</span>
+            <span class="chip-tier text-f1-red">OPS</span>
           </div>
-          <div class="skill-chip" data-category="systems">
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">Git &amp; GitHub</span>
-            <span class="chip-cat">DEV</span>
+            <span class="chip-tier text-f1-red">DEV</span>
           </div>
-          <div class="skill-chip" data-category="systems">
+          <div class="powertrain-chip" data-category="systems">
             <span class="chip-name">PID Control Loops</span>
-            <span class="chip-cat">ROB</span>
+            <span class="chip-tier text-f1-red">ROB</span>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">SECTOR 08 // SUPERLICENSE DOSSIER ✦ CURRICULUM VITAE</span>
+    <!-- ── KATANA SLASH BARRIER: S07 -> S08 ── -->
+    <div class="katana-slash-gate" data-target="#resume">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Superlicense Dossier">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO SECTOR 08 // SUPERLICENSE &amp; OFFICIAL DOSSIER</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
-    <!-- ── 08. RESUME & DOSSIER SECTION ── -->
-    <section id="resume" class="section-block">
+    <!-- ── 08. SUPERLICENSE RESUME DOSSIER ── -->
+    <section id="resume" class="f1-section">
       <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 08 // DOSSIER]</span>
-          <span class="marker-spec">OFFICIAL CURRICULUM VITAE &amp; CREDENTIALS</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">SECTOR 08 // SUPERLICENSE DOSSIER</span>
+          <span class="sector-meta">OFFICIAL CURRICULUM VITAE</span>
         </div>
 
-        <div class="resume-dossier-card">
-          <div class="dossier-header">
+        <div class="f1-card resume-monocoque">
+          <div class="resume-top-flex">
             <div>
-              <span class="dossier-kicker">VERIFIED CREDENTIAL ARCHIVE</span>
-              <h2 class="dossier-title">CURRICULUM <span class="text-accent">VITAE</span></h2>
-              <p class="dossier-sub">
-                Official resume detailing engineering capabilities, dual-track academic foundations at <strong>IIM Bangalore</strong> and <strong>GH Raisoni College of Engineering</strong>, competitive hackathon victories, and peer-reviewed scientific publications.
+              <span class="superlicense-pill">FIA-GRADE ENGINEERING SUPERLICENSE</span>
+              <h2 class="resume-headline">CURRICULUM <span class="text-f1-red">VITAE</span></h2>
+              <p class="resume-subtext">
+                Verified portfolio dossier detailing production AI architectures, dual-track academic foundations at <strong>IIM Bangalore</strong> and <strong>GHRCEM Pune</strong>, national hackathon podiums, and scientific research.
               </p>
             </div>
-            <div class="dossier-actions">
-              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="btn btn-primary magnetic-item">
+            <div class="resume-cta-wrap">
+              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="btn btn-f1-red magnetic-item">
                 <i data-lucide="download" class="btn-icon"></i>
                 <span>Download Resume (PDF)</span>
               </a>
-              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary magnetic-item">
+              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-carbon magnetic-item">
                 <i data-lucide="external-link" class="btn-icon"></i>
                 <span>Open in Viewer</span>
               </a>
             </div>
           </div>
 
-          <!-- Interactive Resume Summary Grid -->
-          <div class="dossier-summary-grid">
-            
-            <div class="dossier-col">
-              <div class="dossier-col-label">01 / CANDIDATE IDENTITY</div>
-              <h4 class="dossier-cand-name">Veenit Ramteke</h4>
-              <p class="dossier-cand-role">AI &amp; Software Systems Engineer</p>
-              <div class="dossier-contact-tags">
-                <span class="d-tag"><i data-lucide="map-pin"></i> Pune, India</span>
-                <span class="d-tag"><i data-lucide="mail"></i> veenitramteke@gmail.com</span>
-                <span class="d-tag"><i data-lucide="phone"></i> +91 8766901425</span>
+          <!-- 3-Column Dossier Summary -->
+          <div class="dossier-f1-grid">
+            <div class="dossier-panel">
+              <span class="panel-label">01 // DRIVER IDENTITY</span>
+              <h4 class="driver-name">Veenit Ramteke</h4>
+              <p class="driver-title">AI &amp; Software Systems Engineer</p>
+              <div class="driver-tags-col">
+                <span><i data-lucide="map-pin"></i> Pune, India</span>
+                <span><i data-lucide="mail"></i> veenitramteke@gmail.com</span>
+                <span><i data-lucide="phone"></i> +91 8766901425</span>
               </div>
             </div>
 
-            <div class="dossier-col">
-              <div class="dossier-col-label">02 / ACADEMIC FOUNDATIONS</div>
-              <div class="d-item">
+            <div class="dossier-panel">
+              <span class="panel-label">02 // ACADEMIC FOUNDATIONS</span>
+              <div class="panel-item">
                 <strong>IIM Bangalore</strong>
                 <span>BBA in Digital Business &amp; Entrepreneurship (2026–2029)</span>
               </div>
-              <div class="d-item">
-                <strong>GH Raisoni College of Engineering</strong>
+              <div class="panel-item">
+                <strong>GHRCEM Pune</strong>
                 <span>B.Tech in CSE (CGPA: 8.5 / 10.0, 2024–2028)</span>
               </div>
             </div>
 
-            <div class="dossier-col">
-              <div class="dossier-col-label">03 / HIGHEST HONORS &amp; RESEARCH</div>
-              <div class="d-item">
-                <strong class="text-accent">AVINYA IIT Guwahati — 1st Prize Winner</strong>
-                <span>Flagship National Technical Sprint (2026)</span>
+            <div class="dossier-panel">
+              <span class="panel-label">03 // KEY PODIUM HONORS</span>
+              <div class="panel-item">
+                <strong class="text-f1-red">Winner — AVINYA IIT Guwahati</strong>
+                <span>First Prize National Technical Sprint (2026)</span>
               </div>
-              <div class="d-item">
-                <strong>Peer-Reviewed Research Paper</strong>
-                <span>HBRP Published · DOI: 10.5281/zenodo.19552932</span>
+              <div class="panel-item">
+                <strong>HBRP Published Research Paper</strong>
+                <span>Recent Trends in Data Science Technology · DOI: 10.5281/zenodo.19552932</span>
               </div>
             </div>
-
           </div>
 
-          <!-- Document File Meta Footer -->
-          <div class="dossier-file-meta">
-            <div class="d-meta-left">
-              <i data-lucide="file-check-2" class="d-icon"></i>
-              <span>DOCUMENT: <strong>Veenit_Ramteke_Resume.pdf</strong> · SIZE: <strong>~100 KB</strong> · FORMAT: <strong>A4 PRINT OPTIMIZED</strong></span>
+          <!-- Meta Footer -->
+          <div class="resume-file-meta">
+            <div class="meta-left">
+              <i data-lucide="file-check-2" class="meta-icon text-f1-red"></i>
+              <span>DOCUMENT: <strong>Veenit_Ramteke_Resume.pdf</strong> · FILE SIZE: <strong>~100 KB</strong> · VERIFIED PRODUCTION ARCHIVE</span>
             </div>
-            <div class="d-meta-right">
-              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="d-download-link">
+            <div class="meta-right">
+              <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="meta-direct-dl text-f1-red">
                 <span>Save to Local Drive</span>
                 <i data-lucide="arrow-down"></i>
               </a>
             </div>
           </div>
+
         </div>
 
       </div>
     </section>
 
-    <!-- ── KATANA SLASH DIVIDER ── -->
-    <div class="katana-slash-divider" aria-hidden="true">
-      <span class="katana-cut-badge">FINISH LINE // PADDOCK CLUB ✦ INITIATE CONNECTION</span>
+    <!-- ── KATANA SLASH BARRIER: S08 -> S09 ── -->
+    <div class="katana-slash-gate" data-target="#contact">
+      <button class="katana-slash-btn magnetic-item" title="Slash through to Pit Wall Contact">
+        <span class="gate-blade-icon"><i data-lucide="sword"></i></span>
+        <span class="gate-text">SLASH TO FINISH LINE // PADDOCK CLUB &amp; CONTACT</span>
+        <span class="gate-arrow"><i data-lucide="chevrons-down"></i></span>
+      </button>
     </div>
 
-    <!-- ── 09. MASSIVE MAGNETIC FOOTER (SIGNATURE STRIKE.UNO FINALE) ── -->
-    <footer id="contact" class="footer-section">
-      <div class="container footer-container">
+    <!-- ── 09. FINISH LINE & PADDOCK CONTACT ── -->
+    <footer id="contact" class="f1-footer">
+      <div class="container">
         
-        <div class="section-marker">
-          <span class="marker-index">[SECTOR 09 // CONTACT]</span>
-          <span class="marker-spec">INITIATE CONNECTION</span>
+        <div class="f1-sector-marker">
+          <span class="sector-badge">FINISH LINE // CHECKERED FLAG</span>
+          <span class="sector-meta">INITIATE HIGH-STAKES COLLABORATION</span>
         </div>
 
         <div class="footer-callout">
-          <h2 class="footer-hero-text">
+          <h2 class="footer-hero-headline">
             <span>LET'S BUILD</span>
-            <span class="text-accent">SOMETHING</span>
-            <span>EXTRAORDINARY.</span>
+            <span class="text-f1-red">MAXIMUM VELOCITY</span>
+            <span>SYSTEMS.</span>
           </h2>
-          <p class="footer-sub">
+          <p class="footer-subtext">
             Available for research fellowships, advanced AI engineering internships, and high-stakes technical collaborations.
           </p>
 
-          <!-- Magnetic Email Trigger -->
-          <div class="footer-email-trigger">
-            <a href="mailto:veenitramteke@gmail.com" class="magnetic-cta-pill magnetic-item" id="main-contact-cta">
-              <span class="cta-inner">
-                <span class="cta-icon-wrap"><i data-lucide="mail"></i></span>
-                <span class="cta-email">veenitramteke@gmail.com</span>
-                <span class="cta-arrow"><i data-lucide="arrow-up-right"></i></span>
+          <!-- Massive Magnetic Contact Pill -->
+          <div class="footer-cta-box">
+            <a href="mailto:veenitramteke@gmail.com" class="f1-magnetic-pill magnetic-item" id="main-contact-cta">
+              <span class="pill-inner">
+                <span class="pill-icon text-f1-red"><i data-lucide="radio"></i></span>
+                <span class="pill-email">veenitramteke@gmail.com</span>
+                <span class="pill-arrow"><i data-lucide="arrow-up-right"></i></span>
               </span>
             </a>
           </div>
         </div>
 
         <!-- Links Grid -->
-        <div class="footer-links-grid">
+        <div class="f1-footer-grid">
           
-          <div class="footer-col">
-            <span class="col-title">DIRECT CONTACT</span>
-            <a href="mailto:veenitramteke@gmail.com" class="footer-link">veenitramteke@gmail.com</a>
-            <a href="tel:+918766901425" class="footer-link">+91 8766901425</a>
-            <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="footer-link text-accent magnetic-item">
-              <i data-lucide="file-down" class="link-ext"></i>
-              <span>Official Resume (PDF) ↗</span>
+          <div class="f1-footer-col">
+            <span class="col-head text-f1-red">RADIO COMM</span>
+            <a href="mailto:veenitramteke@gmail.com" class="f-link">veenitramteke@gmail.com</a>
+            <a href="tel:+918766901425" class="f-link">+91 8766901425</a>
+            <a href="assets/Veenit_Ramteke_Resume.pdf" target="_blank" download="Veenit_Ramteke_Resume.pdf" class="f-link text-f1-red">
+              <i data-lucide="file-down"></i>
+              <span>Download Official Resume (PDF)</span>
             </a>
-            <span class="footer-muted">Pune, Maharashtra, India</span>
+            <span class="f-muted">Pune, Maharashtra, India</span>
           </div>
 
-          <div class="footer-col">
-            <span class="col-title">CONNECTIVITY</span>
-            <a href="https://www.linkedin.com/in/veenit-ramteke/" target="_blank" rel="noopener noreferrer" class="footer-link magnetic-item">
-              <span>LinkedIn</span>
-              <i data-lucide="external-link" class="link-ext"></i>
+          <div class="f1-footer-col">
+            <span class="col-head text-f1-red">TELEMETRY CHANNELS</span>
+            <a href="https://www.linkedin.com/in/veenit-ramteke/" target="_blank" rel="noopener noreferrer" class="f-link magnetic-item">
+              <span>LinkedIn Driver Profile</span>
+              <i data-lucide="external-link" class="f-ext"></i>
             </a>
-            <a href="https://github.com/veenit-cell" target="_blank" rel="noopener noreferrer" class="footer-link magnetic-item">
-              <span>GitHub Profile</span>
-              <i data-lucide="external-link" class="link-ext"></i>
+            <a href="https://github.com/veenit-cell" target="_blank" rel="noopener noreferrer" class="f-link magnetic-item">
+              <span>GitHub Repositories</span>
+              <i data-lucide="external-link" class="f-ext"></i>
             </a>
-            <a href="https://github.com/veenit-cell/PERSONAL-PORTFOLIO-" target="_blank" rel="noopener noreferrer" class="footer-link magnetic-item">
-              <span>New Portfolio Repo</span>
-              <i data-lucide="external-link" class="link-ext"></i>
+            <a href="https://github.com/veenit-cell/PERSONAL-PORTFOLIO-" target="_blank" rel="noopener noreferrer" class="f-link magnetic-item">
+              <span>F1 Portfolio Repository</span>
+              <i data-lucide="external-link" class="f-ext"></i>
             </a>
           </div>
 
-          <div class="footer-col">
-            <span class="col-title">RESEARCH INDEX</span>
-            <a href="https://doi.org/10.5281/zenodo.19552932" target="_blank" rel="noopener noreferrer" class="footer-link magnetic-item">
-              <span>Zenodo DOI Publication</span>
-              <i data-lucide="external-link" class="link-ext"></i>
+          <div class="f1-footer-col">
+            <span class="col-head text-f1-red">RESEARCH &amp; CITATIONS</span>
+            <a href="https://doi.org/10.5281/zenodo.19552932" target="_blank" rel="noopener noreferrer" class="f-link magnetic-item">
+              <span>Zenodo DOI Indexed Paper</span>
+              <i data-lucide="external-link" class="f-ext"></i>
             </a>
-            <a href="https://github.com/veenit-cell/publication" target="_blank" rel="noopener noreferrer" class="footer-link magnetic-item">
-              <span>Publication Repository</span>
-              <i data-lucide="external-link" class="link-ext"></i>
+            <a href="https://github.com/veenit-cell/publication" target="_blank" rel="noopener noreferrer" class="f-link magnetic-item">
+              <span>Paper &amp; Certificate Repo</span>
+              <i data-lucide="external-link" class="f-ext"></i>
             </a>
-            <a href="https://veenit-portfolio-one.vercel.app" target="_blank" rel="noopener noreferrer" class="footer-link magnetic-item">
+            <a href="https://veenit-portfolio-one.vercel.app" target="_blank" rel="noopener noreferrer" class="f-link magnetic-item">
               <span>Previous IIMB Portfolio</span>
-              <i data-lucide="external-link" class="link-ext"></i>
+              <i data-lucide="external-link" class="f-ext"></i>
             </a>
           </div>
 
-          <div class="footer-col footer-col-action">
-            <button id="back-to-top" class="back-to-top-btn magnetic-item" aria-label="Back to top">
+          <div class="f1-footer-col f-col-back">
+            <button id="back-to-top" class="f1-back-btn magnetic-item" aria-label="Return to Grid Start">
               <i data-lucide="arrow-up"></i>
-              <span>BACK TO TOP</span>
+              <span>RETURN TO GRID</span>
             </button>
           </div>
 
         </div>
 
-        <!-- Bottom Legal & Architecture Credits -->
-        <div class="footer-bottom">
+        <div class="f1-footer-bottom">
           <div class="copyright">
-            © 2026 VEENIT RAMTEKE · ALL RIGHTS RESERVED.
+            © 2026 VEENIT RAMTEKE · ALL SYSTEMS OPERATIONAL.
           </div>
-          <div class="design-credit font-mono">
-            ARCHITECTED WITH STRIKE-INSPIRED MOMENTUM · LENIS SMOOTH SCROLL · ZERO-LAG GRAPHICS
+          <div class="paddock-tag font-mono">
+            RED &amp; CARBON MONOCOQUE · F1 TELEMETRY · KATANA CUT ENGINE
           </div>
         </div>
 
@@ -1121,7 +1146,7 @@
 
   </main>
 
-  <!-- Main Application Script -->
+  <!-- Application Script -->
   <script src="main.js"></script>
 </body>
 </html>
