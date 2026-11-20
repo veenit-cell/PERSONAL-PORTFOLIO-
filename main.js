@@ -1,645 +1,512 @@
 /**
- * VEENIT RAMTEKE — F1 MOTORSPORT & KATANA SLICE ENGINE
- * Fullscreen Katana Blade Transitions · F1 Tachometer Telemetry · Lenis Momentum Scroll
+ * VEENIT RAMTEKE — CREATIVE STUDIO & INTERACTIVE 3D AI SYSTEMS
+ * WebGL/Canvas Particle Physics · Fluid Dual-Ring Cursor · 3D Perspective Tilt · Lenis Smooth Scroll
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Lucide Icons
+
+  /* ==========================================================================
+     01. LUCIDE ICONS INITIALIZATION
+     ========================================================================== */
   if (window.lucide) {
     window.lucide.createIcons();
   }
 
   /* ==========================================================================
-     01. LENIS VIRTUAL MOMENTUM SMOOTH SCROLLING
+     02. LENIS SMOOTH MOMENTUM SCROLL
      ========================================================================== */
   let lenis = null;
-  try {
-    if (typeof window.Lenis !== 'undefined') {
-      lenis = new window.Lenis({
-        duration: 1.25,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1.05,
-        touchMultiplier: 1.5,
-      });
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
+    });
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+    function raf(time) {
+      lenis.raf(time);
       requestAnimationFrame(raf);
     }
-  } catch (e) {
-    console.warn('Lenis could not be initialized:', e);
+    requestAnimationFrame(raf);
   }
 
   /* ==========================================================================
-     02. 3D KATANA CENTER-CUT & OVERLAPPING PAGE-PEEL ENGINE
+     03. READING / SCROLL PROGRESS BAR & HEADER BLUR
      ========================================================================== */
-  const katanaPeelStage = document.getElementById('katana-peel-stage');
-  const peelSparksCanvas = document.getElementById('katana-peel-sparks-canvas');
-  let peelSparksCtx = null;
-  const peelSparks = [];
+  const progressBar = document.getElementById('scroll-progress-bar');
+  const header = document.querySelector('.studio-header');
 
-  // Telemetry metadata per sector for dynamic 3D peel HUD
-  const SECTOR_METADATA = {
-    '#top': { num: '01', sector: 'SECTOR 01 // COCKPIT', title: 'PRECISION ENGINEERING', sub: 'AI SYSTEMS & MONOCOQUE VELOCITY' },
-    '#projects': { num: '02', sector: 'SECTOR 02 // POWERTRAIN', title: 'HYBRID VELOCITY', sub: 'FEATURED PROJECTS · DRISHTI · VASH · PRASHIKSHAN' },
-    '#publication': { num: '03', sector: 'SECTOR 03 // RESEARCH', title: 'SCIENTIFIC PODIUM', sub: 'HBRP JOURNAL · DATA SCIENCE & TECH (DOI 10.5281)' },
-    '#honors': { num: '04', sector: 'SECTOR 04 // PODIUMS', title: 'GRAND PRIX TROPHIES', sub: 'P1 IIT GUWAHATI AVINYA · ELECTRONOVA ROBOTICS' },
-    '#experience': { num: '05', sector: 'SECTOR 05 // PIT STRATEGY', title: 'APPLIED GOVERNANCE', sub: 'PPGF POLITICAL CONSULTING · ICPC COMPETITIVE CODING' },
-    '#education': { num: '06', sector: 'SECTOR 06 // DRIVER ACADEMY', title: 'DUAL PEDIGREE', sub: 'IIM BANGALORE DBE · GHRCEM B.TECH CSE (CGPA 8.5)' },
-    '#about': { num: '07', sector: 'SECTOR 07 // ARSENAL', title: 'ENGINE ARCHITECTURE', sub: 'PYTHON · PYTORCH · FASTAPI · ROS2 · NEXT.JS' },
-    '#resume': { num: '08', sector: 'SECTOR 08 // SUPERLICENSE', title: 'OFFICIAL DOSSIER', sub: 'FIA RESUME SUPERLICENSE · DOWNLOAD VERIFIED PDF' },
-    '#contact': { num: '09', sector: 'SECTOR 09 // FINISH LINE', title: 'PADDOCK CLUB', sub: 'PIT WALL COMMUNICATIONS · VEENITRAMTEKE@GMAIL.COM' }
-  };
-
-  if (peelSparksCanvas) {
-    peelSparksCtx = peelSparksCanvas.getContext('2d');
-    const resizeSparksCanvas = () => {
-      peelSparksCanvas.width = peelSparksCanvas.offsetWidth || 420;
-      peelSparksCanvas.height = peelSparksCanvas.offsetHeight || 800;
-    };
-    resizeSparksCanvas();
-    window.addEventListener('resize', resizeSparksCanvas);
-  }
-
-  function triggerKatanaPeelSparks() {
-    if (!peelSparksCanvas || !peelSparksCtx) return;
-    const w = peelSparksCanvas.width;
-    const h = peelSparksCanvas.height;
-    const centerX = w / 2;
-
-    const sparkCount = 80;
-    for (let i = 0; i < sparkCount; i++) {
-      const originY = 60 + Math.random() * (h - 220);
-      const isLeft = Math.random() > 0.5;
-      const angle = isLeft
-        ? Math.PI - 0.2 + (Math.random() - 0.5) * 0.9
-        : 0.2 + (Math.random() - 0.5) * 0.9;
-      const speed = Math.random() * 9 + 4;
-
-      peelSparks.push({
-        x: centerX + (Math.random() - 0.5) * 6,
-        y: originY,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed * 0.7 - (Math.random() * 2),
-        life: 1.0,
-        decay: Math.random() * 0.035 + 0.02,
-        color: Math.random() > 0.5 ? '#ffffff' : (Math.random() > 0.4 ? '#ffd700' : (Math.random() > 0.3 ? '#ff5500' : '#e10600')),
-        size: Math.random() * 2.8 + 1.2
-      });
-    }
-  }
-
-  function renderKatanaPeelSparks() {
-    if (peelSparksCtx && peelSparks.length > 0) {
-      peelSparksCtx.clearRect(0, 0, peelSparksCanvas.width, peelSparksCanvas.height);
-
-      for (let i = peelSparks.length - 1; i >= 0; i--) {
-        const s = peelSparks[i];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.vy += 0.22; // Gravity
-        s.life -= s.decay;
-
-        if (s.life <= 0) {
-          peelSparks.splice(i, 1);
-        } else {
-          peelSparksCtx.fillStyle = s.color;
-          peelSparksCtx.globalAlpha = s.life;
-          peelSparksCtx.shadowColor = '#ff4400';
-          peelSparksCtx.shadowBlur = 9;
-          peelSparksCtx.beginPath();
-          peelSparksCtx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
-          peelSparksCtx.fill();
-        }
-      }
-      peelSparksCtx.globalAlpha = 1.0;
-      peelSparksCtx.shadowBlur = 0;
-    }
-    requestAnimationFrame(renderKatanaPeelSparks);
-  }
-  requestAnimationFrame(renderKatanaPeelSparks);
-
-  function getCurrentSectorId() {
-    const list = ['#top', '#projects', '#publication', '#honors', '#experience', '#education', '#about', '#resume', '#contact'];
-    const curY = window.scrollY || window.pageYOffset;
-    let curr = '#top';
-    for (const id of list) {
-      const el = document.querySelector(id);
-      if (el) {
-        if (curY >= el.offsetTop - 200) {
-          curr = id;
-        }
-      }
-    }
-    return curr;
-  }
-
-  let isPeeling = false;
-
-  function executeKatanaCenterPeel(targetSelector, sourceSelector, callback) {
-    if (!targetSelector) return;
-    const targetEl = document.querySelector(targetSelector);
-    if (!targetEl) return;
-
-    if (isPeeling) return; // Prevent double-slash overlap
-    isPeeling = true;
-
-    const srcId = sourceSelector || getCurrentSectorId();
-    const srcMeta = SECTOR_METADATA[srcId] || SECTOR_METADATA['#top'];
-    const tgtMeta = SECTOR_METADATA[targetSelector] || { num: '02', sector: 'SECTOR // NEXT', title: 'HYBRID VELOCITY', sub: 'PRECISION ENGINEERING' };
-
-    // Update Underlay HUD text
-    const underlaySec = document.getElementById('underlay-hud-sector');
-    const underlayTitle = document.getElementById('underlay-hud-title');
-    const underlaySub = document.getElementById('underlay-hud-sub');
-    if (underlaySec) underlaySec.textContent = tgtMeta.sector;
-    if (underlayTitle) underlayTitle.textContent = tgtMeta.title;
-    if (underlaySub) underlaySub.textContent = tgtMeta.sub;
-
-    // Update Left & Right Flap text (showing previous section peeling away)
-    const peelLeftSec = document.getElementById('peel-left-sector');
-    const peelLeftTitle = document.getElementById('peel-left-title');
-    const peelRightSec = document.getElementById('peel-right-sector');
-    const peelRightTitle = document.getElementById('peel-right-title');
-    if (peelLeftSec) peelLeftSec.textContent = srcMeta.sector;
-    if (peelLeftTitle) peelLeftTitle.textContent = srcMeta.title;
-    if (peelRightSec) peelRightSec.textContent = srcMeta.sector;
-    if (peelRightTitle) peelRightTitle.textContent = srcMeta.title;
-
-    // 1. Play authentic Katana unsheathe and slash audio
-    playSound('katana');
-
-    // 2. Activate 3D Peel Stage
-    if (katanaPeelStage) {
-      katanaPeelStage.classList.remove('peeling');
-      void katanaPeelStage.offsetWidth; // Reflow
-      katanaPeelStage.classList.add('active', 'peeling');
-      triggerKatanaPeelSparks();
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+    if (progressBar) {
+      progressBar.style.width = `${progress}%`;
     }
 
-    // 3. Mid-peel scroll synchronization (at 450ms when flaps are curling back)
-    setTimeout(() => {
-      targetEl.classList.add('katana-slice-section', 'sliced-enter');
-      if (lenis) {
-        lenis.scrollTo(targetEl, { offset: -50, duration: 1.1 });
+    if (header) {
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
       } else {
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+        header.classList.remove('scrolled');
       }
-    }, 450);
-
-    // 4. Conclude peel and restore interactive stage
-    setTimeout(() => {
-      if (katanaPeelStage) {
-        katanaPeelStage.classList.remove('peeling');
-        setTimeout(() => {
-          katanaPeelStage.classList.remove('active');
-          isPeeling = false;
-          if (callback) callback();
-        }, 180);
-      } else {
-        isPeeling = false;
-        if (callback) callback();
-      }
-    }, 1180);
-  }
-
-  // Alias for backward compatibility
-  function executeKatanaSlash(callback) {
-    playSound('katana');
-    triggerKatanaPeelSparks();
-    if (callback) setTimeout(callback, 80);
-  }
-
-  // Slash Gate Buttons between sections
-  document.querySelectorAll('.katana-slash-gate, .btn-slash-next').forEach((gate) => {
-    gate.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetSelector = this.getAttribute('data-target') || this.getAttribute('data-slash-target');
-      const fromSelector = this.getAttribute('data-from');
-      if (targetSelector) {
-        executeKatanaCenterPeel(targetSelector, fromSelector);
-      }
-    });
-  });
-
-  // Nav link smooth anchoring with 3D Katana Center Cut
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#' || !targetId.startsWith('#')) return;
-
-      const targetEl = document.querySelector(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        const currentSrc = getCurrentSectorId();
-        executeKatanaCenterPeel(targetId, currentSrc, () => {
-          const mobileDrawer = document.getElementById('mobile-drawer');
-          if (mobileDrawer && mobileDrawer.classList.contains('open')) {
-            mobileDrawer.classList.remove('open');
-          }
-        });
-      }
-    });
-  });
+    }
+  }, { passive: true });
 
   /* ==========================================================================
-     03. FORMULA 1 STEERING WHEEL REV BAR & TACHOMETER ENGINE
+     04. INTERACTIVE 3D PARTICLES CANVAS (PHYSICS & REPULSION)
      ========================================================================== */
-  const revLeds = document.querySelectorAll('.f1-shift-bar .rev-led');
-  const gearIndicator = document.getElementById('cockpit-gear');
-  const speedVal = document.getElementById('telemetry-speed');
-
-  let lastY = window.scrollY;
-  let rawVelocity = 0;
-  let smoothedRPM = 0;
-
-  function updateF1Cockpit() {
-    const curY = window.scrollY;
-    rawVelocity = Math.abs(curY - lastY);
-    lastY = curY;
-
-    // Smoothed RPM simulation (0 to 12,000 RPM)
-    smoothedRPM += (rawVelocity - smoothedRPM) * 0.16;
-
-    // Map velocity to 15 LEDs
-    const activeLedCount = Math.min(15, Math.floor(smoothedRPM / 3.2));
-
-    revLeds.forEach((led, i) => {
-      if (i < activeLedCount) {
-        led.classList.add('active');
-      } else {
-        led.classList.remove('active');
-      }
-    });
-
-    // Dynamic Gear shifting (G1 to G8)
-    if (gearIndicator) {
-      const gear = Math.min(8, Math.max(1, Math.floor(smoothedRPM / 5.5) + 1));
-      gearIndicator.textContent = gear;
-    }
-
-    // Dynamic Telemetry Speed (climbs up to 348 KM/H with DRS active)
-    if (speedVal) {
-      const speed = Math.min(348, Math.floor(290 + smoothedRPM * 2.5));
-      speedVal.textContent = `${speed} KM/H`;
-    }
-
-    requestAnimationFrame(updateF1Cockpit);
-  }
-  requestAnimationFrame(updateF1Cockpit);
-
-  /* ==========================================================================
-     04. AERODYNAMIC STREAMLINE WIND TUNNEL CANVAS
-     ========================================================================== */
-  const streamCanvas = document.getElementById('f1-streamline-canvas');
-  if (streamCanvas) {
-    const sCtx = streamCanvas.getContext('2d');
-    let sW = (streamCanvas.width = window.innerWidth);
-    let sH = (streamCanvas.height = window.innerHeight);
+  const canvas = document.getElementById('interactive-3d-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
     window.addEventListener('resize', () => {
-      sW = streamCanvas.width = window.innerWidth;
-      sH = streamCanvas.height = window.innerHeight;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initParticles();
     });
 
-    const lines = [];
-    const lineCount = 35;
+    let mouse = { x: -1000, y: -1000, radius: 140 };
 
-    for (let i = 0; i < lineCount; i++) {
-      lines.push({
-        x: Math.random() * sW,
-        y: Math.random() * sH,
-        length: Math.random() * 90 + 40,
-        speed: Math.random() * 2.5 + 1.2,
-        alpha: Math.random() * 0.35 + 0.1,
-        color: Math.random() > 0.4 ? '#e10600' : '#ffffff',
-      });
-    }
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
 
-    function renderStreamlines() {
-      sCtx.clearRect(0, 0, sW, sH);
+    window.addEventListener('mouseleave', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    });
 
-      lines.forEach((l) => {
-        l.y += l.speed;
-        if (l.y > sH) {
-          l.y = -l.length;
-          l.x = Math.random() * sW;
+    const particles = [];
+    const count = Math.min(Math.floor((width * height) / 14000), 90);
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.size = Math.random() * 2.2 + 0.8;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.color = Math.random() > 0.4 ? 'rgba(99, 102, 241, ' : (Math.random() > 0.5 ? 'rgba(6, 182, 212, ' : 'rgba(236, 72, 153, ');
+        this.alpha = Math.random() * 0.5 + 0.25;
+      }
+
+      update() {
+        this.baseX += this.vx;
+        this.baseY += this.vy;
+
+        if (this.baseX < 0 || this.baseX > width) this.vx *= -1;
+        if (this.baseY < 0 || this.baseY > height) this.vy *= -1;
+
+        // Mouse Repulsion Physics
+        const dx = mouse.x - this.baseX;
+        const dy = mouse.y - this.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < mouse.radius) {
+          const force = (mouse.radius - dist) / mouse.radius;
+          const forceX = (dx / dist) * force * 45;
+          const forceY = (dy / dist) * force * 45;
+          this.x = this.baseX - forceX;
+          this.y = this.baseY - forceY;
+        } else {
+          this.x += (this.baseX - this.x) * 0.08;
+          this.y += (this.baseY - this.y) * 0.08;
         }
+      }
 
-        sCtx.strokeStyle = l.color;
-        sCtx.globalAlpha = l.alpha;
-        sCtx.lineWidth = 1;
-        sCtx.beginPath();
-        sCtx.moveTo(l.x, l.y);
-        sCtx.lineTo(l.x - 4, l.y + l.length);
-        sCtx.stroke();
-      });
-      sCtx.globalAlpha = 1.0;
-      requestAnimationFrame(renderStreamlines);
+      draw() {
+        ctx.fillStyle = `${this.color}${this.alpha})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
-    requestAnimationFrame(renderStreamlines);
+
+    function initParticles() {
+      particles.length = 0;
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+    initParticles();
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw connecting constellation lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 130) {
+            const opacity = (1 - dist / 130) * 0.15;
+            ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
+
+      requestAnimationFrame(renderCanvas);
+    }
+    renderCanvas();
   }
 
   /* ==========================================================================
-     05. KATANA BLADE CURSOR WITH INTERPOLATION
+     05. FLUID DUAL-RING 3D CURSOR
      ========================================================================== */
-  const katanaCursor = document.getElementById('katana-cursor');
-  let mX = -100, mY = -100;
+  const cursor = document.getElementById('studio-cursor');
+  const cursorTag = document.getElementById('cursor-tag');
+  let mouseX = -100, mouseY = -100;
   let curX = -100, curY = -100;
 
   window.addEventListener('mousemove', (e) => {
-    mX = e.clientX;
-    mY = e.clientY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
 
-  function renderKatanaCursor() {
-    if (katanaCursor) {
-      curX += (mX - curX) * 0.2;
-      curY += (mY - curY) * 0.2;
-      katanaCursor.style.transform = `translate3d(${curX}px, ${curY}px, 0)`;
+  function renderCursor() {
+    if (cursor) {
+      curX += (mouseX - curX) * 0.22;
+      curY += (mouseY - curY) * 0.22;
+      cursor.style.transform = `translate3d(${curX - 22}px, ${curY - 22}px, 0)`;
     }
-    requestAnimationFrame(renderKatanaCursor);
+    requestAnimationFrame(renderCursor);
   }
-  requestAnimationFrame(renderKatanaCursor);
+  requestAnimationFrame(renderCursor);
 
-  document.querySelectorAll('a, button, .f1-tab, .switch-btn').forEach((btn) => {
-    btn.addEventListener('mouseenter', () => {
-      if (katanaCursor) katanaCursor.classList.add('hovering-link');
+  // Link & Button Hover States
+  document.querySelectorAll('a, button, .magnetic-item').forEach((el) => {
+    el.addEventListener('mouseenter', () => {
+      if (cursor) cursor.classList.add('hovering');
     });
-    btn.addEventListener('mouseleave', () => {
-      if (katanaCursor) katanaCursor.classList.remove('hovering-link');
+    el.addEventListener('mouseleave', () => {
+      if (cursor) cursor.classList.remove('hovering');
     });
   });
 
-  // Magnetic button physics
-  document.querySelectorAll('.magnetic-item').forEach((item) => {
-    item.addEventListener('mousemove', function (e) {
-      const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      this.style.transform = `translate3d(${x * 0.25}px, ${y * 0.25}px, 0)`;
+  // Card Hover States
+  document.querySelectorAll('.project-3d-card, .bento-card, .award-card').forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      if (cursor) {
+        cursor.classList.add('hovering-card');
+        if (cursorTag) cursorTag.textContent = 'EXPLORE';
+      }
     });
-
-    item.addEventListener('mouseleave', function () {
-      this.style.transform = `translate3d(0, 0, 0)`;
-      this.style.transition = 'transform 0.4s var(--ease-f1)';
-    });
-
-    item.addEventListener('mouseenter', function () {
-      this.style.transition = 'none';
+    card.addEventListener('mouseleave', () => {
+      if (cursor) cursor.classList.remove('hovering-card');
     });
   });
 
   /* ==========================================================================
-     06. FLOATING PROJECT PREVIEW ON PADDOCK HOVER
+     06. 3D PERSPECTIVE CARD TILT DYNAMICS
      ========================================================================== */
-  const floatingPreview = document.getElementById('floating-preview');
-  const previewImg = document.getElementById('floating-preview-img');
-  const previewTitle = document.getElementById('floating-preview-title');
-  const previewTag = document.getElementById('floating-preview-tag');
-  const rows = document.querySelectorAll('.project-hover-row');
+  document.querySelectorAll('.card-tilt-target').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
 
-  let fpX = -100, fpY = -100;
-  let targetFpX = -100, targetFpY = -100;
+      const rotateX = (-y / (rect.height / 2)) * 6.5;
+      const rotateY = (x / (rect.width / 2)) * 6.5;
 
-  rows.forEach((row) => {
-    row.addEventListener('mouseenter', function () {
-      const src = this.getAttribute('data-preview-img');
-      const title = this.getAttribute('data-preview-title');
-      const tag = this.getAttribute('data-preview-tag');
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`;
+    });
 
-      if (previewImg && src) previewImg.src = src;
-      if (previewTitle && title) previewTitle.textContent = title;
-      if (previewTag && tag) previewTag.textContent = tag;
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+  });
 
-      if (floatingPreview) {
-        floatingPreview.classList.add('active');
-        playSound('hover');
+  /* ==========================================================================
+     07. PROJECTS VIEW MODE SWITCHER & FLOATING TRACKER
+     ========================================================================== */
+  const viewCardsBtn = document.getElementById('view-cards-btn');
+  const viewIndexBtn = document.getElementById('view-index-btn');
+  const gridView = document.getElementById('projects-grid-view');
+  const indexView = document.getElementById('projects-index-view');
+  const tracker = document.getElementById('floating-project-tracker');
+  const trackerImg = document.getElementById('floating-tracker-img');
+  const trackerTag = document.getElementById('floating-tracker-tag');
+  const trackerTitle = document.getElementById('floating-tracker-title');
+
+  if (viewCardsBtn && viewIndexBtn && gridView && indexView) {
+    viewCardsBtn.addEventListener('click', () => {
+      viewCardsBtn.classList.add('active');
+      viewIndexBtn.classList.remove('active');
+      gridView.style.display = 'grid';
+      indexView.style.display = 'none';
+      playSound('click');
+    });
+
+    viewIndexBtn.addEventListener('click', () => {
+      viewIndexBtn.classList.add('active');
+      viewCardsBtn.classList.remove('active');
+      gridView.style.display = 'none';
+      indexView.style.display = 'flex';
+      playSound('click');
+    });
+  }
+
+  // Floating Tracker in Index View
+  let trackerX = -100, trackerY = -100;
+  let targetTrkX = -100, targetTrkY = -100;
+
+  document.querySelectorAll('.index-row-item').forEach((row) => {
+    row.addEventListener('mouseenter', () => {
+      const img = row.getAttribute('data-preview-img');
+      const tag = row.getAttribute('data-preview-tag');
+      const title = row.getAttribute('data-preview-title');
+
+      if (tracker && trackerImg) {
+        trackerImg.src = img;
+        if (trackerTag) trackerTag.textContent = tag;
+        if (trackerTitle) trackerTitle.textContent = title;
+        tracker.classList.add('active');
       }
     });
 
     row.addEventListener('mouseleave', () => {
-      if (floatingPreview) floatingPreview.classList.remove('active');
+      if (tracker) tracker.classList.remove('active');
     });
 
     row.addEventListener('mousemove', (e) => {
-      targetFpX = e.clientX + 25;
-      targetFpY = e.clientY - 100;
+      targetTrkX = e.clientX + 20;
+      targetTrkY = e.clientY - 90;
     });
   });
 
-  function renderFloatingPreview() {
-    if (floatingPreview) {
-      fpX += (targetFpX - fpX) * 0.15;
-      fpY += (targetFpY - fpY) * 0.15;
-      floatingPreview.style.setProperty('--fp-x', `${fpX}px`);
-      floatingPreview.style.setProperty('--fp-y', `${fpY}px`);
+  function renderTracker() {
+    if (tracker) {
+      trackerX += (targetTrkX - trackerX) * 0.2;
+      trackerY += (targetTrkY - trackerY) * 0.2;
+      tracker.style.setProperty('--x', `${trackerX}px`);
+      tracker.style.setProperty('--y', `${trackerY}px`);
     }
-    requestAnimationFrame(renderFloatingPreview);
+    requestAnimationFrame(renderTracker);
   }
-  requestAnimationFrame(renderFloatingPreview);
+  requestAnimationFrame(renderTracker);
 
   /* ==========================================================================
-     07. LIVE CLOCK (PUNE, INDIA)
+     08. CASE STUDY MODAL DRAWER
      ========================================================================== */
-  const clockEl = document.getElementById('live-ist-clock');
-  function updateISTClock() {
-    if (!clockEl) return;
-    const now = new Date();
-    const options = {
-      timeZone: 'Asia/Kolkata',
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    };
-    clockEl.textContent = `PUNE ${new Intl.DateTimeFormat('en-GB', options).format(now)} IST`;
-  }
-  updateISTClock();
-  setInterval(updateISTClock, 1000);
+  const modal = document.getElementById('case-study-modal');
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalContent = document.getElementById('modal-content');
 
-  /* ==========================================================================
-     08. WEB AUDIO SYNTHESIZER (KATANA SWORD SLICE & F1 PIT BEEPS)
-     ========================================================================== */
-  let audioCtx = null;
-  let soundEnabled = false;
-
-  function initAudio() {
-    if (!audioCtx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext) audioCtx = new AudioContext();
+  const CASE_STUDIES = {
+    drishti: {
+      tag: 'COMPUTER VISION // EDGE AI // CRISIS MANAGEMENT',
+      title: 'DRISHTI: Autonomous Disaster Response AI',
+      desc: 'An end-to-end multi-modal crisis intelligence engine that coordinates real-time field operations, automated victim triage, and edge geospatial route planning under severe connectivity dropouts.',
+      metrics: [
+        { label: 'Latency', val: '< 45ms' },
+        { label: 'Segmentation Acc', val: '94.2%' },
+        { label: 'Routing Efficiency', val: '+38%' }
+      ],
+      tech: ['Python 3.12', 'PyTorch', 'YOLOv8', 'FastAPI', 'OpenCV', 'GIS Routing'],
+      highlights: [
+        'Integrated real-time drone aerial imagery segmentation identifying collapsed structures and flood margins.',
+        'Engineered an offline-first mobile sync protocol operating seamlessly during severe cellular blackout conditions.',
+        'Deployed dynamic shortest-path emergency vehicle dispatchers prioritizing acute critical casualty corridors.'
+      ],
+      repo: 'https://github.com/veenit-cell'
+    },
+    vash: {
+      tag: 'GRAPH NEURAL NETWORKS // FINTECH FORENSICS',
+      title: 'VASH: High-Throughput Financial Fraud Detection Graph',
+      desc: 'An automated financial forensics graph network designed to detect complex layered money laundering syndicates, circular transaction rings, and multi-hop fraudulent smurfing rings.',
+      metrics: [
+        { label: 'Detection Accuracy', val: '99.4%' },
+        { label: 'Throughput', val: '12.5k txn/sec' },
+        { label: 'False Positive Drop', val: '64%' }
+      ],
+      tech: ['PyTorch Geometric', 'GraphSAGE', 'Neo4j Cypher', 'Docker', 'FastAPI', 'Python'],
+      highlights: [
+        'Trained Graph Convolutional Networks (GCN) and GraphSAGE embeddings on millions of synthetic and anonymized banking nodes.',
+        'Constructed sub-second subgraph cycle traversal algorithms identifying synthetic identity fraud clusters.',
+        'Packaged modular Docker microservices for scalable containerized deployment in enterprise compliance environments.'
+      ],
+      repo: 'https://github.com/veenit-cell'
+    },
+    prashikshan: {
+      tag: 'DATA SCIENCE PLATFORM // PEER-REVIEWED PUBLICATION',
+      title: 'Prashikshan: Adaptive AI Data Science Platform',
+      desc: 'Peer-reviewed pedagogical platform engineered to accelerate computational and algorithmic competency through real-time cognitive retention telemetry and dynamic difficulty scaling.',
+      metrics: [
+        { label: 'Comprehension Boost', val: '+42%' },
+        { label: 'Peer-Reviewed Vol', val: 'Vol 2, Issue 2' },
+        { label: 'Zenodo DOI', val: '10.5281' }
+      ],
+      tech: ['React 18', 'Node.js', 'PostgreSQL', 'TailwindCSS', 'Statistical ML'],
+      highlights: [
+        'Published in Recent Trends in Data Science Technology (HBRP Publication, e-ISSN 3107-7498).',
+        'Built automated feedback loops measuring code compilation error frequency and debugging hesitation times.',
+        'Validated across multi-cohort testing benchmarks proving substantial retention gains.'
+      ],
+      repo: 'https://doi.org/10.5281/zenodo.19552932'
+    },
+    electronova: {
+      tag: 'EDGE ROBOTICS // SLAM // AUTONOMOUS NAVIGATION',
+      title: 'Electronova: Autonomous Edge Robotics Telemetry',
+      desc: '1st Position winning autonomous navigation rover engineered with ROS 2, LiDAR spatial mapping, and low-latency motor control under compute-constrained micro-controller constraints.',
+      metrics: [
+        { label: 'Prize Position', val: '1st Place' },
+        { label: 'SLAM Accuracy', val: '< 2.5cm' },
+        { label: 'Obstacle Evasion', val: '100% Zero-Collision' }
+      ],
+      tech: ['ROS 2 Humble', 'C++20', 'LiDAR 2D SLAM', 'Embedded C', 'Raspberry Pi 4', 'Motor PID'],
+      highlights: [
+        'Awarded 1st Position in Data-Driven Innovation at the Electronova Robotics Hackathon 2024.',
+        'Wrote custom C++ nodes for odometry sensor fusion, Kalman filtering, and real-time obstacle evasion.',
+        'Transmitted live telemetry feeds back to a central ground station dashboard over secure low-latency UDP sockets.'
+      ],
+      repo: 'https://github.com/veenit-cell'
     }
+  };
+
+  function openCaseStudy(caseKey) {
+    const data = CASE_STUDIES[caseKey];
+    if (!data || !modal || !modalContent) return;
+
+    modalContent.innerHTML = `
+      <div style="margin-bottom: 24px;">
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.12em; display: block; margin-bottom: 8px;">${data.tag}</span>
+        <h3 style="font-size: 26px; font-weight: 800; color: #ffffff; line-height: 1.3;">${data.title}</h3>
+      </div>
+      <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 28px;">${data.desc}</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; padding: 18px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: 10px;">
+        ${data.metrics.map(m => `
+          <div>
+            <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted);">${m.label}</div>
+            <div style="font-size: 18px; font-weight: 800; color: #ffffff;">${m.val}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <h4 style="font-size: 14px; font-family: var(--font-mono); color: var(--accent-indigo); margin-bottom: 12px; letter-spacing: 0.08em;">// KEY ARCHITECTURAL DELIVERABLES</h4>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
+        ${data.highlights.map(h => `
+          <li style="position: relative; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
+            <span style="position: absolute; left: 0; color: var(--accent-cyan);">→</span> ${h}
+          </li>
+        `).join('')}
+      </ul>
+
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px;">
+        ${data.tech.map(t => `<span class="tag-pill">${t}</span>`).join('')}
+      </div>
+
+      <div style="display: flex; gap: 14px;">
+        <a href="${data.repo}" target="_blank" rel="noopener noreferrer" class="btn-studio-solid" style="padding: 10px 20px; font-size: 13px;">
+          <span>Open Verified Source</span>
+          <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+        </a>
+      </div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+    modal.classList.add('open');
+    playSound('chord');
   }
 
-  function playSound(type = 'click') {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+  function closeCaseStudy() {
+    if (modal) modal.classList.remove('open');
+  }
 
-      const now = audioCtx.currentTime;
+  document.querySelectorAll('[data-case]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const caseKey = btn.getAttribute('data-case');
+      openCaseStudy(caseKey);
+    });
+  });
 
-      if (type === 'katana') {
-        // Razor-sharp metallic Katana unsheathe & aerodynamic whoosh
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeCaseStudy);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeCaseStudy);
 
-        osc.frequency.setValueAtTime(2800, now);
-        osc.frequency.exponentialRampToValueAtTime(140, now + 0.19);
-
-        gain.gain.setValueAtTime(0.09, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.19);
-
-        osc.start(now);
-        osc.stop(now + 0.19);
-      } else if (type === 'hover') {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.frequency.setValueAtTime(360, now);
-        osc.frequency.exponentialRampToValueAtTime(520, now + 0.04);
-        gain.gain.setValueAtTime(0.02, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
-        osc.start(now);
-        osc.stop(now + 0.04);
-      } else {
-        // High-tech pit radio click
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.frequency.setValueAtTime(700, now);
-        osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
-        gain.gain.setValueAtTime(0.05, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-        osc.start(now);
-        osc.stop(now + 0.05);
-      }
-    } catch (e) {
-      // Audio context ignore
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
+      closeCaseStudy();
     }
-  }
-
-  const soundToggle = document.getElementById('sound-toggle');
-  if (soundToggle) {
-    soundToggle.addEventListener('click', () => {
-      initAudio();
-      soundEnabled = !soundEnabled;
-      const offIcon = soundToggle.querySelector('.sound-off-icon');
-      const onIcon = soundToggle.querySelector('.sound-on-icon');
-
-      if (soundEnabled) {
-        if (offIcon) offIcon.style.display = 'none';
-        if (onIcon) onIcon.style.display = 'block';
-        showToast('F1 Telemetry & Katana SFX Armed');
-        playSound('katana');
-      } else {
-        if (offIcon) offIcon.style.display = 'block';
-        if (onIcon) onIcon.style.display = 'none';
-        showToast('Telemetry Sound Muted');
-      }
-    });
-  }
+  });
 
   /* ==========================================================================
-     09. PROJECTS VIEW SWITCHER (CARDS vs. PADDOCK INDEX)
+     09. TECHNICAL ARSENAL FILTER CHIPS
      ========================================================================== */
-  const gridBtn = document.getElementById('view-grid-btn');
-  const listBtn = document.getElementById('view-list-btn');
-  const gridView = document.getElementById('projects-grid-view');
-  const listView = document.getElementById('projects-list-view');
+  const filterBtns = document.querySelectorAll('.stack-filter-btn');
+  const stackChips = document.querySelectorAll('.stack-chip');
 
-  if (gridBtn && listBtn && gridView && listView) {
-    gridBtn.addEventListener('click', () => {
-      executeKatanaSlash(() => {
-        gridBtn.classList.add('active');
-        listBtn.classList.remove('active');
-        gridView.style.display = 'grid';
-        listView.style.display = 'none';
-      });
-    });
-
-    listBtn.addEventListener('click', () => {
-      executeKatanaSlash(() => {
-        listBtn.classList.add('active');
-        gridBtn.classList.remove('active');
-        gridView.style.display = 'none';
-        listView.style.display = 'flex';
-      });
-    });
-  }
-
-  /* ==========================================================================
-     10. POWERTRAIN TECHNICAL MATRIX FILTER
-     ========================================================================== */
-  const f1Tabs = document.querySelectorAll('.f1-tab');
-  const chips = document.querySelectorAll('.powertrain-chip');
-
-  f1Tabs.forEach((tab) => {
-    tab.addEventListener('click', function () {
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', function () {
       playSound('click');
-      f1Tabs.forEach((t) => t.classList.remove('active'));
+      filterBtns.forEach((b) => b.classList.remove('active'));
       this.classList.add('active');
 
       const filter = this.getAttribute('data-filter');
-      chips.forEach((c) => {
-        const cat = c.getAttribute('data-category');
+      stackChips.forEach((chip) => {
+        const cat = chip.getAttribute('data-category');
         if (filter === 'all' || cat === filter) {
-          c.style.display = 'flex';
-          c.style.opacity = '1';
+          chip.style.display = 'flex';
+          chip.style.opacity = '1';
         } else {
-          c.style.display = 'none';
+          chip.style.display = 'none';
+          chip.style.opacity = '0';
         }
       });
     });
   });
 
   /* ==========================================================================
-     11. BIBTEX CITATION COPY & DRAWER TOGGLE
+     10. BIBTEX DRAWER & COPY CITATION
      ========================================================================== */
-  const copyBibtexBtn = document.getElementById('copy-bibtex-btn');
+  const toggleBibtexBtn = document.getElementById('toggle-bibtex-btn');
   const bibtexContainer = document.getElementById('bibtex-container');
+  const copyBibtexBtn = document.getElementById('copy-bibtex-btn');
 
-  if (copyBibtexBtn && bibtexContainer) {
+  if (toggleBibtexBtn && bibtexContainer) {
+    toggleBibtexBtn.addEventListener('click', () => {
+      playSound('click');
+      const isVisible = bibtexContainer.style.display === 'block';
+      bibtexContainer.style.display = isVisible ? 'none' : 'block';
+    });
+  }
+
+  if (copyBibtexBtn) {
     copyBibtexBtn.addEventListener('click', () => {
-      executeKatanaSlash(() => {
-        const isVis = bibtexContainer.style.display === 'block';
-        bibtexContainer.style.display = isVis ? 'none' : 'block';
-
-        const bibtex = `@article{thosar2026prashikshan,
-  title     = {Prashikshan: A Centralized Academia--Industry Interface for Internship and Skill Validation},
-  author    = {Thosar, Devidas and Gujjula, Trisha and Devgirkar, Tanishka and Ramteke, Veenit and Sharma, Lakshmi and Patil, Girish and Gaur, Anjali},
-  journal   = {Recent Trends in Data Science Technology},
-  volume    = {2},
-  number    = {2},
-  pages     = {1--7},
-  year      = {2026},
-  publisher = {HBRP Publication Pvt. Ltd.},
-  issn      = {3107-7498},
-  doi       = {10.5281/zenodo.19552932},
-  url       = {https://doi.org/10.5281/zenodo.19552932}
-}`;
-        navigator.clipboard.writeText(bibtex).then(() => {
-          showToast('BibTeX Citation Copied to Pit Clipboard');
+      playSound('click');
+      const code = document.querySelector('.bibtex-code code');
+      if (code) {
+        navigator.clipboard.writeText(code.textContent).then(() => {
+          showToast('BibTeX Citation Copied to Clipboard');
         });
-      });
+      }
     });
   }
 
   /* ==========================================================================
-     12. RADIO DRIVER EMAIL COPY
+     11. DIRECT EMAIL COPY ACTION
      ========================================================================== */
   const copyEmailBtn = document.getElementById('copy-email-btn');
   if (copyEmailBtn) {
@@ -647,11 +514,14 @@ document.addEventListener('DOMContentLoaded', () => {
       playSound('click');
       const email = this.getAttribute('data-email') || 'veenitramteke@gmail.com';
       navigator.clipboard.writeText(email).then(() => {
-        showToast(`Driver Comms Copied: ${email}`);
+        showToast(`Email copied: ${email}`);
       });
     });
   }
 
+  /* ==========================================================================
+     12. TOAST NOTIFICATION UTILITY
+     ========================================================================== */
   function showToast(msg) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
@@ -660,42 +530,134 @@ document.addEventListener('DOMContentLoaded', () => {
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 3000);
+      }, 3200);
     }
   }
 
   /* ==========================================================================
-     13. MOBILE DRAWER TOGGLE
+     13. MOBILE DRAWER NAVIGATION
      ========================================================================== */
-  const mobileToggle = document.getElementById('mobile-toggle');
+  const mobileTrigger = document.getElementById('mobile-menu-trigger');
   const mobileDrawer = document.getElementById('mobile-drawer');
 
-  if (mobileToggle && mobileDrawer) {
-    mobileToggle.addEventListener('click', () => {
+  if (mobileTrigger && mobileDrawer) {
+    mobileTrigger.addEventListener('click', () => {
       playSound('click');
       mobileDrawer.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+      });
     });
   }
 
   /* ==========================================================================
-     14. DRIVER MONOCOQUE TILT PHYSICS
+     14. LIVE PUNE (IST) CLOCK
      ========================================================================== */
-  const monocoque = document.getElementById('hero-driver-monocoque');
-  if (monocoque && window.innerWidth > 992) {
-    monocoque.addEventListener('mousemove', (e) => {
-      const rect = monocoque.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      monocoque.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
-    });
+  function updateISTClock() {
+    const clockEl = document.getElementById('ist-clock');
+    if (!clockEl) return;
+    const now = new Date();
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    };
+    clockEl.textContent = `${new Intl.DateTimeFormat([], options).format(now)} IST`;
+  }
+  updateISTClock();
+  setInterval(updateISTClock, 1000);
 
-    monocoque.addEventListener('mouseleave', () => {
-      monocoque.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
-      monocoque.style.transition = 'transform 0.5s var(--ease-f1)';
-    });
+  /* ==========================================================================
+     15. AMBIENT WEB AUDIO SYNTHESIZER
+     ========================================================================== */
+  let audioCtx = null;
+  let soundEnabled = false;
 
-    monocoque.addEventListener('mouseenter', () => {
-      monocoque.style.transition = 'none';
+  function playSound(type = 'click') {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const now = audioCtx.currentTime;
+
+      if (type === 'chord') {
+        // Soft airy chime chord
+        [523.25, 659.25, 783.99].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+          gain.gain.setValueAtTime(0.04, now + idx * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.04 + 0.6);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.04);
+          osc.stop(now + idx * 0.04 + 0.6);
+        });
+      } else {
+        // Delicate click
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      }
+    } catch (e) {
+      // Audio fallback silent
+    }
+  }
+
+  const soundToggleBtn = document.getElementById('sound-toggle-btn');
+  if (soundToggleBtn) {
+    const offIcon = soundToggleBtn.querySelector('.sound-icon-off');
+    const onIcon = soundToggleBtn.querySelector('.sound-icon-on');
+
+    soundToggleBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      soundEnabled = !soundEnabled;
+
+      if (soundEnabled) {
+        if (offIcon) offIcon.style.display = 'none';
+        if (onIcon) onIcon.style.display = 'block';
+        showToast('Ambient Creative Audio Activated');
+        playSound('chord');
+      } else {
+        if (offIcon) offIcon.style.display = 'block';
+        if (onIcon) onIcon.style.display = 'none';
+        showToast('Audio Muted');
+      }
     });
   }
+
+  // Smooth hash navigation with Lenis
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#' || !targetId.startsWith('#')) return;
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        if (lenis) {
+          lenis.scrollTo(targetEl, { offset: -70, duration: 1.1 });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
 });
